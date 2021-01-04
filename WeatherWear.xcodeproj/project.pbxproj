@@ -16,6 +16,7 @@
 		B2019CFD259A2B2F00CCFD64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2019CFB259A2B2F00CCFD64 /* LaunchScreen.storyboard */; };
 		B28A0267259BC3B400FA1B33 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */; };
 		B28A026A259BC3D600FA1B33 /* ClothesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */; };
+		B2B1FE6225A36B7D005E285C /* ClothingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		B2019CFE259A2B2F00CCFD64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothesViewController.swift; sourceTree = "<group>"; };
+		B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				B2019CF1259A2B2E00CCFD64 /* ViewController.swift */,
 				B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */,
 				B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */,
+				B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2019CF2259A2B2E00CCFD64 /* ViewController.swift in Sources */,
+				B2B1FE6225A36B7D005E285C /* ClothingCollectionViewCell.swift in Sources */,
 				B28A0267259BC3B400FA1B33 /* WeatherViewController.swift in Sources */,
 				B2019CEE259A2B2E00CCFD64 /* AppDelegate.swift in Sources */,
 				B2019CF0259A2B2E00CCFD64 /* SceneDelegate.swift in Sources */,
