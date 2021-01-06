@@ -11,9 +11,28 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
    
     private var collectionView: UICollectionView?
     
+    lazy var addButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addItem))
+        return button
+    }()
+    
+    lazy var deleteButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(self.deleteItem))
+        return button
+    }()
+    
+    lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = "New Search"
+        searchController.searchBar.searchBarStyle = .minimal
+        
+        return searchController
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        self.navigationItem.title = "Clothing"
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layoutCollectionView())
         guard let collectionView = collectionView else { return }
@@ -24,12 +43,25 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         // Register cell
         collectionView.register(ClothingCollectionViewCell.self, forCellWithReuseIdentifier: ClothingCollectionViewCell.identifier)
+        
+        // Navigation bar
+        navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.searchController = searchController
+        searchController.hidesNavigationBarDuringPresentation = false
+        setupBarButtonItems()
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView?.frame = view.bounds
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.hidesSearchBarWhenScrolling = false
+    }
+    
     
     func layoutCollectionView() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
@@ -42,8 +74,25 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         return layout
     }
     
+    func setupBarButtonItems() {
+        navigationItem.rightBarButtonItem = addButton
+        navigationItem.leftBarButtonItem = deleteButton
+        //navigationItem.titleView = searchBar
+    }
+    
+    // MARK: Navbar Functions: ADD, DELETE
+    
+    @objc func addItem(){
+        navigationController?.pushViewController(AddItemViewController(), animated: true)
+    }
+    
+    @objc func deleteItem(){
+        
+    }
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 50
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

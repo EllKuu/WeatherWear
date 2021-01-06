@@ -19,7 +19,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="Vaq-7p-zDS" kind="relationship" relationship="viewControllers" id="mku-iH-geA"/>
-                        <segue destination="rrH-fC-RZS" kind="relationship" relationship="viewControllers" id="f67-SC-iHp"/>
+                        <segue destination="CvJ-6z-KtC" kind="relationship" relationship="viewControllers" id="f67-SC-iHp"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CMo-u7-nyV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -40,23 +40,45 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdl-AU-vY4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-978" y="309"/>
+            <point key="canvasLocation" x="-1022" y="368"/>
         </scene>
-        <!--Clothes-->
+        <!--Clothes View Controller-->
         <scene sceneID="TsU-VT-bqj">
             <objects>
                 <viewController id="rrH-fC-RZS" customClass="ClothesViewController" customModule="WeatherWear" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SQj-1r-ora">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="Pft-wH-YCn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Clothes" id="o0q-LF-ooL"/>
+                    <navigationItem key="navigationItem" id="Ugy-Ga-lG2"/>
+                    <nil key="simulatedTopBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W7h-ma-1zB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="30" y="309"/>
+            <point key="canvasLocation" x="932" y="368"/>
+        </scene>
+        <!--Clothes-->
+        <scene sceneID="eeN-MT-5fP">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CvJ-6z-KtC" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Clothes" id="o0q-LF-ooL"/>
+                    <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" largeTitles="YES" id="xs8-B1-Rmw">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="rrH-fC-RZS" kind="relationship" relationship="rootViewController" id="JLx-Lm-hcS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="263-Qd-Roo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="20" y="368"/>
         </scene>
     </scenes>
     <resources>
