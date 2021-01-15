@@ -83,7 +83,10 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     // MARK: Navbar Functions: ADD, DELETE
     
     @objc func addItem(){
-        navigationController?.pushViewController(AddItemViewController(), animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "addItem") as! AddItemTableViewController
+        vc.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func deleteItem(){

@@ -57,7 +57,34 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W7h-ma-1zB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="932" y="368"/>
+            <point key="canvasLocation" x="778" y="368"/>
+        </scene>
+        <!--Add Item Table View Controller-->
+        <scene sceneID="Cif-td-Y4f">
+            <objects>
+                <tableViewController storyboardIdentifier="addItem" id="EnC-m5-5yh" customClass="AddItemTableViewController" customModule="WeatherWear" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Vyq-vs-XVa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="1Sh-Fm-dat">
+                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1Sh-Fm-dat" id="LpK-8f-Hw2">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="EnC-m5-5yh" id="Pdt-0S-H6m"/>
+                            <outlet property="delegate" destination="EnC-m5-5yh" id="cUp-eu-ffe"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JKk-SE-9RA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1549" y="368"/>
         </scene>
         <!--Clothes-->
         <scene sceneID="eeN-MT-5fP">

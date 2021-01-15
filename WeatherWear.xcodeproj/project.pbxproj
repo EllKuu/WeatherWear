@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B200597225A61218004BCF45 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B200597125A61218004BCF45 /* AddItemViewController.swift */; };
 		B2019CEE259A2B2E00CCFD64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2019CED259A2B2E00CCFD64 /* AppDelegate.swift */; };
 		B2019CF0259A2B2E00CCFD64 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2019CEF259A2B2E00CCFD64 /* SceneDelegate.swift */; };
 		B2019CF2259A2B2E00CCFD64 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2019CF1259A2B2E00CCFD64 /* ViewController.swift */; };
@@ -15,13 +14,17 @@
 		B2019CF8259A2B2E00CCFD64 /* WeatherWear.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B2019CF6259A2B2E00CCFD64 /* WeatherWear.xcdatamodeld */; };
 		B2019CFA259A2B2F00CCFD64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2019CF9259A2B2F00CCFD64 /* Assets.xcassets */; };
 		B2019CFD259A2B2F00CCFD64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2019CFB259A2B2F00CCFD64 /* LaunchScreen.storyboard */; };
+		B219F3B525ACA0FA0025CF4E /* AddDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B219F3B325ACA0FA0025CF4E /* AddDetailsTableViewCell.swift */; };
+		B219F3B625ACA0FA0025CF4E /* AddDetailsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */; };
+		B219F3BA25ACC3A60025CF4E /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B219F3B825ACC3A60025CF4E /* ImageTableViewCell.swift */; };
+		B219F3BB25ACC3A60025CF4E /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */; };
 		B28A0267259BC3B400FA1B33 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */; };
 		B28A026A259BC3D600FA1B33 /* ClothesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */; };
+		B28B543E25A8B4D2008331E7 /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */; };
 		B2B1FE6225A36B7D005E285C /* ClothingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B200597125A61218004BCF45 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		B2019CEA259A2B2E00CCFD64 /* WeatherWear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherWear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2019CED259A2B2E00CCFD64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2019CEF259A2B2E00CCFD64 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,8 +34,13 @@
 		B2019CF9259A2B2F00CCFD64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B2019CFC259A2B2F00CCFD64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B2019CFE259A2B2F00CCFD64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B219F3B325ACA0FA0025CF4E /* AddDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddDetailsTableViewCell.xib; sourceTree = "<group>"; };
+		B219F3B825ACC3A60025CF4E /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
+		B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageTableViewCell.xib; sourceTree = "<group>"; };
 		B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothesViewController.swift; sourceTree = "<group>"; };
+		B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewController.swift; sourceTree = "<group>"; };
 		B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,8 +98,12 @@
 				B2019CF1259A2B2E00CCFD64 /* ViewController.swift */,
 				B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */,
 				B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */,
-				B200597125A61218004BCF45 /* AddItemViewController.swift */,
 				B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */,
+				B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */,
+				B219F3B325ACA0FA0025CF4E /* AddDetailsTableViewCell.swift */,
+				B219F3B825ACC3A60025CF4E /* ImageTableViewCell.swift */,
+				B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */,
+				B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -179,8 +191,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B219F3BB25ACC3A60025CF4E /* ImageTableViewCell.xib in Resources */,
 				B2019CFD259A2B2F00CCFD64 /* LaunchScreen.storyboard in Resources */,
 				B2019CFA259A2B2F00CCFD64 /* Assets.xcassets in Resources */,
+				B219F3B625ACA0FA0025CF4E /* AddDetailsTableViewCell.xib in Resources */,
 				B2019CF5259A2B2E00CCFD64 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,11 +209,13 @@
 				B2019CF2259A2B2E00CCFD64 /* ViewController.swift in Sources */,
 				B2B1FE6225A36B7D005E285C /* ClothingCollectionViewCell.swift in Sources */,
 				B28A0267259BC3B400FA1B33 /* WeatherViewController.swift in Sources */,
+				B219F3B525ACA0FA0025CF4E /* AddDetailsTableViewCell.swift in Sources */,
 				B2019CEE259A2B2E00CCFD64 /* AppDelegate.swift in Sources */,
 				B2019CF0259A2B2E00CCFD64 /* SceneDelegate.swift in Sources */,
-				B200597225A61218004BCF45 /* AddItemViewController.swift in Sources */,
 				B2019CF8259A2B2E00CCFD64 /* WeatherWear.xcdatamodeld in Sources */,
+				B219F3BA25ACC3A60025CF4E /* ImageTableViewCell.swift in Sources */,
 				B28A026A259BC3D600FA1B33 /* ClothesViewController.swift in Sources */,
+				B28B543E25A8B4D2008331E7 /* AddItemTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
