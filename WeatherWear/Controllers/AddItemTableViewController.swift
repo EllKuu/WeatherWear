@@ -25,11 +25,15 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     var imageCell: ImageTableViewCell?
     
+    var hasSetImage = false
     var selectedImage: UIImage?{
         didSet{
-            imageCell?.configure(with: "MY IMAGE", image: selectedImage!)
+            imageCell?.configure(with: "", image: selectedImage!)
+            hasSetImage = true
         }
     }
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
     override func viewDidLoad() {
@@ -48,6 +52,32 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     @objc func saveItem(){
         
+        var clothingItem: ClothingItem?
+        clothingItem = ClothingItem(context: self.context)
+        var fieldIsEmpty = false
+        
+        // check if image was set
+        if hasSetImage{
+            // check if any fields are empty
+            for index in 1...5{
+                let indexPath = IndexPath(row: index, section: 0)
+                let cell: AddDetailsTableViewCell = self.tableView.cellForRow(at: indexPath) as! AddDetailsTableViewCell
+                if cell.detailTextField.text == ""{
+                    fieldIsEmpty = true
+                    break
+                }
+            }
+        }
+        
+        if fieldIsEmpty || !hasSetImage {
+            let alert = UIAlertController(title: "Fill in all fields", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
+        
+        
+        
+        //navigationController?.popViewController(animated: true)
     }
     
     // MARK: TableView Functions
@@ -65,7 +95,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         if indexPath.row == 0 {
             
             let imageCell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.identifier, for: indexPath) as! ImageTableViewCell
-            imageCell.configure(with: "Image", image: UIImage(systemName: "person")!)
+            imageCell.configure(with: "Pick a Picture", image: UIImage(systemName: "camera.circle")!)
             
             return imageCell
             

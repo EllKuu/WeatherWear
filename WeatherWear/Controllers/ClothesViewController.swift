@@ -29,6 +29,9 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         return searchController
     }()
     
+    var clothingItems:[ClothingItem]?
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
