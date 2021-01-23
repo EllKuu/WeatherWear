@@ -35,11 +35,19 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    var titleVC: String?
+    var isUpdate = false{
+        didSet{
+            hasSetImage = true
+        }
+    }
+    var previousItem: ClothingItem?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        self.title = "Add Item"
+        self.title = titleVC
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = saveButton
@@ -48,13 +56,49 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         tableView.register(AddDetailsTableViewCell.nib(), forCellReuseIdentifier: AddDetailsTableViewCell.identifier)
         tableView.register(ImageTableViewCell.nib(), forCellReuseIdentifier: ImageTableViewCell.identifier)
 
+       
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        // if update fill all fields
+        let indexPath = IndexPath(row: 0, section: 0)
+        let imageCell = tableView.cellForRow(at: indexPath) as! ImageTableViewCell
+        let categoryCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! AddDetailsTableViewCell
+        let subCategoryCell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! AddDetailsTableViewCell
+        let brandCell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! AddDetailsTableViewCell
+        let colorCell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as! AddDetailsTableViewCell
+        let seasonCell = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! AddDetailsTableViewCell
+        if isUpdate{
+            if let previousItem = previousItem{
+                DispatchQueue.main.async { [weak self] in
+                    imageCell.configure(with: "", image: UIImage(data: previousItem.clothingImage!)!)
+                    self!.selectedImage = UIImage(data: previousItem.clothingImage!)
+                    categoryCell.detailTextField.text = previousItem.clothingCategory
+                    subCategoryCell.detailTextField.text = previousItem.clothingSubCategory
+                    brandCell.detailTextField.text = previousItem.clothingBrand
+                    colorCell.detailTextField.text = previousItem.clothingColor
+                    seasonCell.detailTextField.text = previousItem.clothingSeason
+                }
+              
+            }
+           
+        }
     }
     
     @objc func saveItem(){
         
         var clothingItem: ClothingItem?
-        clothingItem = ClothingItem(context: self.context)
+        
         var fieldIsEmpty = false
+        var itemDetails = [String]()
+        
+        if isUpdate {
+            clothingItem = previousItem
+        }else{
+            clothingItem = ClothingItem(context: self.context)
+        }
         
         // check if image was set
         if hasSetImage{
@@ -66,6 +110,10 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     fieldIsEmpty = true
                     break
                 }
+                if let details = cell.detailTextField.text{
+                    itemDetails.append(details.lowercased())
+                }
+                
             }
         }
         
@@ -75,9 +123,23 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             present(alert, animated: true)
         }
         
+        // save the data
+        clothingItem?.clothingImage = selectedImage?.pngData()
+        clothingItem?.clothingCategory = itemDetails[0]
+        clothingItem?.clothingSubCategory = itemDetails[1]
+        clothingItem?.clothingBrand = itemDetails[2]
+        clothingItem?.clothingColor = itemDetails[3]
+        clothingItem?.clothingSeason = itemDetails[4]
         
+        do {
+            try self.context.save()
+        }catch{
+            fatalError("Could not save item")
+        }
         
-        //navigationController?.popViewController(animated: true)
+        isUpdate = false
+        navigationController?.popViewController(animated: true)
+        
     }
     
     // MARK: TableView Functions

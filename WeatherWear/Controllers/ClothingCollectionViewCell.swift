@@ -19,6 +19,12 @@ class ClothingCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    public func configure(image: UIImage){
+        itemImageView.image = image
+        itemImageView.contentMode = .scaleAspectFit
+        itemImageView.clipsToBounds = true
+    }
+    
     override init(frame: CGRect){
         super.init(frame: frame)
         

@@ -36,6 +36,7 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         self.navigationItem.title = "Clothing"
+        fetchItems()
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layoutCollectionView())
         guard let collectionView = collectionView else { return }
@@ -63,6 +64,7 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.hidesSearchBarWhenScrolling = false
+        fetchItems()
     }
     
     
@@ -89,6 +91,7 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "addItem") as! AddItemTableViewController
         vc.modalPresentationStyle = .fullScreen
+        vc.titleVC = "Add Item"
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -96,17 +99,43 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         
     }
     
+    func fetchItems(){
+        do {
+            self.clothingItems = try context.fetch(ClothingItem.fetchRequest())
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
+            }
+        }catch{
+            fatalError("Could not fetch items")
+        }
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 50
+        return clothingItems?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClothingCollectionViewCell.identifier, for: indexPath) as! ClothingCollectionViewCell
         
+        if let image = UIImage(data: (clothingItems?[indexPath.row].clothingImage)!){
+            cell.configure(image: image)
+            cell.contentMode = .scaleAspectFill
+        }
+        
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "addItem") as! AddItemTableViewController
+        vc.modalPresentationStyle = .fullScreen
+        vc.titleVC = "Update Item"
+        vc.isUpdate = true
+        vc.previousItem = clothingItems?[indexPath.row]
+    
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     
 
