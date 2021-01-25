@@ -19,6 +19,34 @@ class ClothingCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let highlightView: UIView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "checkmark.circle.fill")
+        imageView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+        
+        imageView.tintColor = .white
+        
+        let highlight = UIView()
+        highlight.alpha = 0.5
+        highlight.backgroundColor = .black
+        highlight.isHidden = true
+        highlight.addSubview(imageView)
+        
+        return highlight
+    }()
+    
+    override var isHighlighted: Bool{
+        didSet{
+            highlightView.isHidden = !isHighlighted
+        }
+    }
+    
+    override var isSelected: Bool{
+        didSet{
+            highlightView.isHidden = !isSelected
+        }
+    }
+    
     public func configure(image: UIImage){
         itemImageView.image = image
         itemImageView.contentMode = .scaleAspectFit
@@ -32,6 +60,7 @@ class ClothingCollectionViewCell: UICollectionViewCell {
         contentView.layer.borderWidth = 1
         contentView.addSubview(itemImageView)
         contentView.clipsToBounds = true
+        contentView.addSubview(highlightView)
         
     }
     
@@ -43,6 +72,8 @@ class ClothingCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         itemImageView.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
+        
+        highlightView.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
     }
     
     override func prepareForReuse() {

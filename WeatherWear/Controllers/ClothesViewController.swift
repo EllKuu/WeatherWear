@@ -16,10 +16,47 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         return button
     }()
     
+    lazy var selectButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(self.selectItem))
+        return button
+    }()
+    
     lazy var deleteButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(self.deleteItem))
         return button
     }()
+    
+    enum Mode{
+        case view
+        case select
+    }
+    
+    var mMode: Mode = .view{
+        didSet{
+            switch mMode{
+            case .view:
+                
+                for (key, value) in dictionarySelectedIndexPath{
+                    if value{
+                        collectionView?.deselectItem(at: key, animated: true)
+                    }
+                }
+                dictionarySelectedIndexPath.removeAll()
+                
+                selectButton.title = "Select"
+                navigationItem.rightBarButtonItem = addButton
+                navigationItem.leftBarButtonItem = selectButton
+                collectionView?.allowsMultipleSelection = false
+            case .select:
+                selectButton.title = "Cancel"
+                navigationItem.leftBarButtonItem = deleteButton
+                navigationItem.rightBarButtonItem = selectButton
+                collectionView?.allowsMultipleSelection = true
+            }
+        }
+    }
+    
+    var dictionarySelectedIndexPath: [IndexPath: Bool] = [ : ]
     
     lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -81,7 +118,7 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     func setupBarButtonItems() {
         navigationItem.rightBarButtonItem = addButton
-        navigationItem.leftBarButtonItem = deleteButton
+        navigationItem.leftBarButtonItem = selectButton
         //navigationItem.titleView = searchBar
     }
     
@@ -95,7 +132,30 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc func selectItem(){
+        mMode = mMode == .view ? .select : .view
+    }
+    
     @objc func deleteItem(){
+        var deleteAtIndexPaths: [IndexPath] = [ ]
+        for(key, value) in dictionarySelectedIndexPath{
+            if value{
+                deleteAtIndexPaths.append(key)
+            }
+        }
+        
+        for i in deleteAtIndexPaths.sorted(by: {$0.item > $1.item}){
+            self.context.delete(clothingItems![i.item])
+        }
+        
+        do{
+            try self.context.save()
+        }catch{
+            fatalError("could not save context")
+        }
+        fetchItems()
+        
+        dictionarySelectedIndexPath.removeAll()
         
     }
     
@@ -127,14 +187,28 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "addItem") as! AddItemTableViewController
-        vc.modalPresentationStyle = .fullScreen
-        vc.titleVC = "Update Item"
-        vc.isUpdate = true
-        vc.previousItem = clothingItems?[indexPath.row]
+        switch mMode{
+        case .view:
+            collectionView.deselectItem(at: indexPath, animated: true)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "addItem") as! AddItemTableViewController
+            vc.modalPresentationStyle = .fullScreen
+            vc.titleVC = "Update Item"
+            vc.isUpdate = true
+            vc.previousItem = clothingItems?[indexPath.row]
+        
+            navigationController?.pushViewController(vc, animated: true)
+        case .select:
+            dictionarySelectedIndexPath[indexPath] = true
+            
+        }
+       
+    }
     
-        navigationController?.pushViewController(vc, animated: true)
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if mMode == .select{
+            dictionarySelectedIndexPath[indexPath] = false
+        }
     }
     
     
