@@ -70,16 +70,18 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         let brandCell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! AddDetailsTableViewCell
         let colorCell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as! AddDetailsTableViewCell
         let seasonCell = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! AddDetailsTableViewCell
+        
         if isUpdate{
             if let previousItem = previousItem{
                 DispatchQueue.main.async { [weak self] in
                     imageCell.configure(with: "", image: UIImage(data: previousItem.clothingImage!)!)
                     self!.selectedImage = UIImage(data: previousItem.clothingImage!)
-                    categoryCell.detailTextField.text = previousItem.clothingCategory
-                    subCategoryCell.detailTextField.text = previousItem.clothingSubCategory
-                    brandCell.detailTextField.text = previousItem.clothingBrand
-                    colorCell.detailTextField.text = previousItem.clothingColor
-                    seasonCell.detailTextField.text = previousItem.clothingSeason
+                    
+                    categoryCell.detailTextField.text = previousItem.clothingCategory?.capitalized
+                    subCategoryCell.detailTextField.text = previousItem.clothingSubCategory?.capitalized
+                    brandCell.detailTextField.text = previousItem.clothingBrand?.capitalized
+                    colorCell.detailTextField.text = previousItem.clothingColor?.capitalized
+                    seasonCell.detailTextField.text = previousItem.clothingSeason?.capitalized
                 }
               
             }
@@ -111,7 +113,9 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     break
                 }
                 if let details = cell.detailTextField.text{
-                    itemDetails.append(details.lowercased())
+                    // string checking and manipulation
+                    let finalString = details.replacingOccurrences(of: " ", with: "").lowercased()
+                    itemDetails.append(finalString)
                 }
                 
             }

@@ -47,6 +47,7 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
                 navigationItem.rightBarButtonItem = addButton
                 navigationItem.leftBarButtonItem = selectButton
                 collectionView?.allowsMultipleSelection = false
+                
             case .select:
                 selectButton.title = "Cancel"
                 navigationItem.leftBarButtonItem = deleteButton
@@ -65,8 +66,19 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         return searchController
     }()
+
     
     var clothingItems:[ClothingItem]?
+    var filteredClothingItems:[ClothingItem]?
+    
+    var isSearchBarEmpty: Bool {
+      return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    var isFiltering: Bool {
+      return searchController.isActive && !isSearchBarEmpty
+    }
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
@@ -88,7 +100,10 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         // Navigation bar
         navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
         setupBarButtonItems()
         
     }
@@ -161,7 +176,7 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     func fetchItems(){
         do {
-            self.clothingItems = try context.fetch(ClothingItem.fetchRequest())
+            clothingItems = try context.fetch(ClothingItem.fetchRequest())
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
             }
@@ -172,13 +187,25 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if isFiltering {
+            return filteredClothingItems?.count ?? 0
+        }
         return clothingItems?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClothingCollectionViewCell.identifier, for: indexPath) as! ClothingCollectionViewCell
         
-        if let image = UIImage(data: (clothingItems?[indexPath.row].clothingImage)!){
+        let clothing: ClothingItem
+          if isFiltering {
+            clothing = filteredClothingItems![indexPath.row]
+          } else {
+            clothing = clothingItems![indexPath.row]
+          }
+
+        
+        if let image = UIImage(data: (clothing.clothingImage)!){
             cell.configure(image: image)
             cell.contentMode = .scaleAspectFill
         }
@@ -195,14 +222,17 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
             vc.modalPresentationStyle = .fullScreen
             vc.titleVC = "Update Item"
             vc.isUpdate = true
-            vc.previousItem = clothingItems?[indexPath.row]
+            if isFiltering{
+                vc.previousItem = filteredClothingItems?[indexPath.row]
+            }else{
+                vc.previousItem = clothingItems?[indexPath.row]
+            }
+            
         
             navigationController?.pushViewController(vc, animated: true)
         case .select:
             dictionarySelectedIndexPath[indexPath] = true
-            
         }
-       
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -211,6 +241,48 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
     }
     
+    func filterContentForSearchText(_ compareText: String) {
+        filteredClothingItems = clothingItems!.filter ({
+            return
+                $0.clothingCategory == compareText ||
+                $0.clothingSubCategory == compareText ||
+                $0.clothingBrand == compareText ||
+                $0.clothingColor == compareText ||
+                $0.clothingSeason == compareText
+        })
+        DispatchQueue.main.async {
+            self.collectionView?.reloadData()
+        }
+    }
     
-
 }
+
+extension ClothesViewController: UISearchResultsUpdating{
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let search = searchController.searchBar.text?.lowercased(){
+            filterContentForSearchText(search)
+        }
+    }
+    
+} // end of extension
+
+extension ClothesViewController: UISearchBarDelegate{
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        if let search = searchBar.text?.lowercased(){
+            filterContentForSearchText(search)
+        }
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        searchBar.text = ""
+        fetchItems()
+    }
+
+    
+}
+
