@@ -4,11 +4,12 @@
         <attribute name="clothingBrand" optional="YES" attributeType="String"/>
         <attribute name="clothingCategory" optional="YES" attributeType="String"/>
         <attribute name="clothingColor" optional="YES" attributeType="String"/>
+        <attribute name="clothingId" optional="YES" attributeType="String"/>
         <attribute name="clothingImage" optional="YES" attributeType="Binary"/>
         <attribute name="clothingSeason" optional="YES" attributeType="String"/>
         <attribute name="clothingSubCategory" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="ClothingItem" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="ClothingItem" positionX="-63" positionY="-18" width="128" height="134"/>
     </elements>
 </model>

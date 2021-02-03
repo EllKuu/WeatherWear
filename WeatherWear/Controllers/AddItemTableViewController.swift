@@ -128,6 +128,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         }
         
         // save the data
+        clothingItem?.clothingId = UUID().uuidString
         clothingItem?.clothingImage = selectedImage?.pngData()
         clothingItem?.clothingCategory = itemDetails[0]
         clothingItem?.clothingSubCategory = itemDetails[1]

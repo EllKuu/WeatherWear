@@ -17,8 +17,8 @@
 		B219F3B625ACA0FA0025CF4E /* AddDetailsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */; };
 		B219F3BA25ACC3A60025CF4E /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B219F3B825ACC3A60025CF4E /* ImageTableViewCell.swift */; };
 		B219F3BB25ACC3A60025CF4E /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */; };
-		B25B7C5025B5E0DE00B3A3D7 /* ClothingItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25B7C4E25B5E0DE00B3A3D7 /* ClothingItem+CoreDataClass.swift */; };
-		B25B7C5125B5E0DE00B3A3D7 /* ClothingItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25B7C4F25B5E0DE00B3A3D7 /* ClothingItem+CoreDataProperties.swift */; };
+		B23A467725C995EC001BC7C4 /* ClothingItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23A467525C995EC001BC7C4 /* ClothingItem+CoreDataClass.swift */; };
+		B23A467825C995EC001BC7C4 /* ClothingItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23A467625C995EC001BC7C4 /* ClothingItem+CoreDataProperties.swift */; };
 		B28A0267259BC3B400FA1B33 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */; };
 		B28A026A259BC3D600FA1B33 /* ClothesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */; };
 		B28B543E25A8B4D2008331E7 /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */; };
@@ -38,8 +38,8 @@
 		B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddDetailsTableViewCell.xib; sourceTree = "<group>"; };
 		B219F3B825ACC3A60025CF4E /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageTableViewCell.xib; sourceTree = "<group>"; };
-		B25B7C4E25B5E0DE00B3A3D7 /* ClothingItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClothingItem+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B25B7C4F25B5E0DE00B3A3D7 /* ClothingItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClothingItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B23A467525C995EC001BC7C4 /* ClothingItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClothingItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B23A467625C995EC001BC7C4 /* ClothingItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClothingItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothesViewController.swift; sourceTree = "<group>"; };
 		B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewController.swift; sourceTree = "<group>"; };
@@ -90,8 +90,8 @@
 		B2019D05259A2E1800CCFD64 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B25B7C4E25B5E0DE00B3A3D7 /* ClothingItem+CoreDataClass.swift */,
-				B25B7C4F25B5E0DE00B3A3D7 /* ClothingItem+CoreDataProperties.swift */,
+				B23A467525C995EC001BC7C4 /* ClothingItem+CoreDataClass.swift */,
+				B23A467625C995EC001BC7C4 /* ClothingItem+CoreDataProperties.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -213,12 +213,12 @@
 				B28A0267259BC3B400FA1B33 /* WeatherViewController.swift in Sources */,
 				B219F3B525ACA0FA0025CF4E /* AddDetailsTableViewCell.swift in Sources */,
 				B2019CEE259A2B2E00CCFD64 /* AppDelegate.swift in Sources */,
-				B25B7C5025B5E0DE00B3A3D7 /* ClothingItem+CoreDataClass.swift in Sources */,
 				B2019CF0259A2B2E00CCFD64 /* SceneDelegate.swift in Sources */,
 				B2019CF8259A2B2E00CCFD64 /* WeatherWear.xcdatamodeld in Sources */,
+				B23A467725C995EC001BC7C4 /* ClothingItem+CoreDataClass.swift in Sources */,
 				B219F3BA25ACC3A60025CF4E /* ImageTableViewCell.swift in Sources */,
 				B28A026A259BC3D600FA1B33 /* ClothesViewController.swift in Sources */,
-				B25B7C5125B5E0DE00B3A3D7 /* ClothingItem+CoreDataProperties.swift in Sources */,
+				B23A467825C995EC001BC7C4 /* ClothingItem+CoreDataProperties.swift in Sources */,
 				B28B543E25A8B4D2008331E7 /* AddItemTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

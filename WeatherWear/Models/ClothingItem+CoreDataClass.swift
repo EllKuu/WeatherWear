@@ -2,7 +2,7 @@
 //  ClothingItem+CoreDataClass.swift
 //  WeatherWear
 //
-//  Created by elliott kung on 2021-01-18.
+//  Created by elliott kung on 2021-02-02.
 //
 //
 

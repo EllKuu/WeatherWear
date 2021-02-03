@@ -68,15 +68,18 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     }()
 
     
-    var clothingItems:[ClothingItem]?
-    var filteredClothingItems:[ClothingItem]?
+    var clothingItems:[ClothingItem] = []
+    var clothingItemIndexes: [(clothing: ClothingItem, index: Int)]? = []
+    var filteredClothingItems: [(clothing: ClothingItem, index: Int)] = []
+   
     
     var isSearchBarEmpty: Bool {
       return searchController.searchBar.text?.isEmpty ?? true
     }
     
     var isFiltering: Bool {
-      return searchController.isActive && !isSearchBarEmpty
+        mMode = .view
+        return searchController.isActive && !isSearchBarEmpty
     }
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -153,14 +156,38 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     @objc func deleteItem(){
         var deleteAtIndexPaths: [IndexPath] = [ ]
-        for(key, value) in dictionarySelectedIndexPath{
-            if value{
-                deleteAtIndexPaths.append(key)
+        
+        if !filteredClothingItems.isEmpty{
+            print(dictionarySelectedIndexPath)
+            print("filter results not empty")
+            for(key, value) in dictionarySelectedIndexPath{
+                if value{
+                    let idx = IndexPath(row: filteredClothingItems[key.item].index, section: 0)
+                    print(idx)
+                    deleteAtIndexPaths.append(idx)
+                    filteredClothingItems.remove(at: key.row)
+                }
+                print("this is \(deleteAtIndexPaths)")
             }
         }
         
+        else{
+            print("no filter")
+            print(dictionarySelectedIndexPath)
+            for(key, value) in dictionarySelectedIndexPath{
+                if value{
+                    print(key)
+                    deleteAtIndexPaths.append(key)
+                }
+                print(deleteAtIndexPaths)
+            }
+
+        }
+        
+        
         for i in deleteAtIndexPaths.sorted(by: {$0.item > $1.item}){
-            self.context.delete(clothingItems![i.item])
+            print(clothingItems[i.item])
+            self.context.delete(clothingItems[i.item])
         }
         
         do{
@@ -168,8 +195,8 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         }catch{
             fatalError("could not save context")
         }
-        fetchItems()
         
+        fetchItems()
         dictionarySelectedIndexPath.removeAll()
         
     }
@@ -189,9 +216,9 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if isFiltering {
-            return filteredClothingItems?.count ?? 0
+            return filteredClothingItems.count
         }
-        return clothingItems?.count ?? 0
+        return clothingItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -199,9 +226,9 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         let clothing: ClothingItem
           if isFiltering {
-            clothing = filteredClothingItems![indexPath.row]
+            clothing = filteredClothingItems[indexPath.row].clothing
           } else {
-            clothing = clothingItems![indexPath.row]
+            clothing = clothingItems[indexPath.row]
           }
 
         
@@ -223,11 +250,10 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
             vc.titleVC = "Update Item"
             vc.isUpdate = true
             if isFiltering{
-                vc.previousItem = filteredClothingItems?[indexPath.row]
+                vc.previousItem = filteredClothingItems[indexPath.row].clothing
             }else{
-                vc.previousItem = clothingItems?[indexPath.row]
+                vc.previousItem = clothingItems[indexPath.row]
             }
-            
         
             navigationController?.pushViewController(vc, animated: true)
         case .select:
@@ -242,13 +268,20 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func filterContentForSearchText(_ compareText: String) {
-        filteredClothingItems = clothingItems!.filter ({
+        
+        guard var clothingItemIndexes = clothingItemIndexes else { return }
+       
+        for index in 0..<clothingItems.count{
+            clothingItemIndexes += [(clothingItems[index], index)]
+        }
+        
+        filteredClothingItems = clothingItemIndexes.filter ({
             return
-                $0.clothingCategory == compareText ||
-                $0.clothingSubCategory == compareText ||
-                $0.clothingBrand == compareText ||
-                $0.clothingColor == compareText ||
-                $0.clothingSeason == compareText
+                    $0.clothing.clothingCategory == compareText ||
+                    $0.clothing.clothingSubCategory == compareText ||
+                    $0.clothing.clothingBrand == compareText ||
+                    $0.clothing.clothingColor == compareText ||
+                    $0.clothing.clothingSeason == compareText
         })
         DispatchQueue.main.async {
             self.collectionView?.reloadData()
