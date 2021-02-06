@@ -99,7 +99,15 @@
 		B2019D06259A2E2700CCFD64 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */,
+				B23A467C25CD9158001BC7C4 /* Weather VCs */,
+				B23A467B25CD9125001BC7C4 /* Clothing VCs */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B23A467B25CD9125001BC7C4 /* Clothing VCs */ = {
+			isa = PBXGroup;
+			children = (
 				B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */,
 				B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */,
 				B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */,
@@ -108,7 +116,15 @@
 				B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */,
 				B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */,
 			);
-			path = Controllers;
+			path = "Clothing VCs";
+			sourceTree = "<group>";
+		};
+		B23A467C25CD9158001BC7C4 /* Weather VCs */ = {
+			isa = PBXGroup;
+			children = (
+				B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */,
+			);
+			path = "Weather VCs";
 			sourceTree = "<group>";
 		};
 		B2940E81259A2EDB0066C06A /* Views */ = {

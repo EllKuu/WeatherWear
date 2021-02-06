@@ -102,11 +102,7 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         // Navigation bar
         navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.delegate = self
-        searchController.obscuresBackgroundDuringPresentation = false
+        
         setupBarButtonItems()
         
     }
@@ -118,8 +114,15 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesSearchBarWhenScrolling = false
         fetchItems()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     
@@ -137,7 +140,11 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     func setupBarButtonItems() {
         navigationItem.rightBarButtonItem = addButton
         navigationItem.leftBarButtonItem = selectButton
-        //navigationItem.titleView = searchBar
+        self.navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
     }
     
     // MARK: Navbar Functions: ADD, DELETE
@@ -170,7 +177,6 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
                 print("this is \(deleteAtIndexPaths)")
             }
         }
-        
         else{
             print("no filter")
             print(dictionarySelectedIndexPath)

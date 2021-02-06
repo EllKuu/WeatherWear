@@ -62,6 +62,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        navigationController?.navigationBar.prefersLargeTitles = true
         // if update fill all fields
         let indexPath = IndexPath(row: 0, section: 0)
         let imageCell = tableView.cellForRow(at: indexPath) as! ImageTableViewCell

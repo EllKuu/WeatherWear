@@ -18,7 +18,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Vaq-7p-zDS" kind="relationship" relationship="viewControllers" id="mku-iH-geA"/>
+                        <segue destination="gzm-jU-x69" kind="relationship" relationship="viewControllers" id="mku-iH-geA"/>
                         <segue destination="CvJ-6z-KtC" kind="relationship" relationship="viewControllers" id="f67-SC-iHp"/>
                     </connections>
                 </tabBarController>
@@ -26,7 +26,7 @@
             </objects>
             <point key="canvasLocation" x="-462" y="-384"/>
         </scene>
-        <!--Weather-->
+        <!--Weather View Controller-->
         <scene sceneID="xOA-lM-zYg">
             <objects>
                 <viewController id="Vaq-7p-zDS" customClass="WeatherViewController" customModule="WeatherWear" customModuleProvider="target" sceneMemberID="viewController">
@@ -36,11 +36,11 @@
                         <viewLayoutGuide key="safeArea" id="dsR-us-QFh"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Weather" id="Ad3-cR-Jpw"/>
+                    <navigationItem key="navigationItem" id="Lce-GN-oOb"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdl-AU-vY4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1022" y="368"/>
+            <point key="canvasLocation" x="-1993" y="368"/>
         </scene>
         <!--Clothes View Controller-->
         <scene sceneID="TsU-VT-bqj">
@@ -57,7 +57,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W7h-ma-1zB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="778" y="368"/>
+            <point key="canvasLocation" x="1686.9565217391305" y="367.63392857142856"/>
         </scene>
         <!--Add Item Table View Controller-->
         <scene sceneID="Cif-td-Y4f">
@@ -84,7 +84,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JKk-SE-9RA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1549" y="368"/>
+            <point key="canvasLocation" x="2457.971014492754" y="367.63392857142856"/>
         </scene>
         <!--Clothes-->
         <scene sceneID="eeN-MT-5fP">
@@ -94,7 +94,7 @@
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" largeTitles="YES" id="xs8-B1-Rmw">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="xs8-B1-Rmw">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -105,7 +105,26 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="263-Qd-Roo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="20" y="368"/>
+            <point key="canvasLocation" x="928.98550724637687" y="367.63392857142856"/>
+        </scene>
+        <!--Weather-->
+        <scene sceneID="zf9-Al-RqF">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gzm-jU-x69" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Weather" id="Ad3-cR-Jpw"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="brc-qH-c2q">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Vaq-7p-zDS" kind="relationship" relationship="rootViewController" id="ONw-af-55I"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lKd-0x-j2i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1023.1884057971015" y="367.63392857142856"/>
         </scene>
     </scenes>
     <resources>
