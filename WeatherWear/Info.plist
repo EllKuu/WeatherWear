@@ -64,5 +64,7 @@
 	<string>Allow access to camera</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow access to photo gallery</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Please allow to see current location</string>
 </dict>
 </plist>
