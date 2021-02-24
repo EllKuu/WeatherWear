@@ -10,7 +10,6 @@ import MapKit
 
 
 class LocationMarker: NSObject, MKAnnotation {
-
     var title: String?
     var coordinate: CLLocationCoordinate2D
     var info: String?
@@ -20,4 +19,6 @@ class LocationMarker: NSObject, MKAnnotation {
         self.coordinate = coordinate
         self.info = info
     }
+    
+    
 }
