@@ -12,23 +12,14 @@ class WeatherViewController: UIViewController {
 
     @IBOutlet weak var weatherTable: UITableView!
     
-    lazy var searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchBar.placeholder = "Search a location"
-        searchController.searchBar.searchBarStyle = .minimal
-        
-        return searchController
-    }()
-    
     lazy var worldMapBtn: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(self.openMap))
         return button
     }()
     
-    lazy var currentLocationBtn: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "mappin.and.ellipse"), style: .plain, target: self, action: #selector(self.useCurrentLocation))
-        return button
-    }()
+    var data_latitude: Double = 0.0
+    var data_longitude: Double = 0.0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,9 +39,7 @@ class WeatherViewController: UIViewController {
     }
     
     func setupBarButtons(){
-        navigationItem.leftBarButtonItem = worldMapBtn
-        //navigationItem.searchController = searchController
-        navigationItem.rightBarButtonItem = currentLocationBtn
+        navigationItem.rightBarButtonItem = worldMapBtn
     }
     
     func setupHeader(){
@@ -64,11 +53,18 @@ class WeatherViewController: UIViewController {
     
     @objc func openMap(){
         let mapVC = storyboard?.instantiateViewController(identifier: "map") as! MapViewController
-        navigationController?.pushViewController(mapVC, animated: true)
-    }
-    
-    @objc func useCurrentLocation(){
         
+        mapVC.callBackCoordinates = { (latitude: Double, longitude: Double) in
+            let weather = WeatherModel()
+            weather.getWeatherData(latitude: latitude, longitude: longitude) {
+                (weatherObj) in
+                print("IN WEATHERVC")
+                print(weatherObj)
+              
+            }
+        }
+        
+        navigationController?.pushViewController(mapVC, animated: true)
     }
     
     

@@ -18,6 +18,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     let locationManager = CLLocationManager()
     var savedLocations: [[String:Double]] = []
     let defaults = UserDefaults.standard
+    var callBackCoordinates: ((_ latitude: Double, _ longitude: Double)-> Void)?
+
     
     lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
@@ -30,7 +32,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.searchController = searchController
         
         // tap gesture
@@ -42,8 +43,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         // load any annotations
         getSavedLocations()
-
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -112,7 +111,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        
+        print("access denied")
     }
     
     func render(_ location: CLLocation){
@@ -163,10 +162,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     defaults.setValue(savedLocations, forKey: "savedLocations")
                 }
             }
-            
-            
-           
-            
         }
         
         if control == view.rightCalloutAccessoryView{
@@ -174,13 +169,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             let placeInfo = locationMarker.info
 
             let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            ac.addAction(UIAlertAction(title: "Get 7 Day Forecast", style: .default, handler: { [weak self] _ in
+                
+                self?.callBackCoordinates?(locationMarker.coordinate.latitude, locationMarker.coordinate.longitude)
+
+                self?.navigationController?.popToRootViewController(animated: true)
+            }))
+            ac.addAction(UIAlertAction(title: "Cancel", style: .default))
             present(ac, animated: true)
         }
-        
-       
-       
     }
     
     
-}
+}// end of class

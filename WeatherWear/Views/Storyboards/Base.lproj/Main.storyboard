@@ -55,7 +55,7 @@
             </objects>
             <point key="canvasLocation" x="-2807.2463768115945" y="367.63392857142856"/>
         </scene>
-        <!--Weather View Controller-->
+        <!--Weather-->
         <scene sceneID="xOA-lM-zYg">
             <objects>
                 <viewController id="Vaq-7p-zDS" customClass="WeatherViewController" customModule="WeatherWear" customModuleProvider="target" sceneMemberID="viewController">
@@ -87,7 +87,7 @@
                             <constraint firstItem="dsR-us-QFh" firstAttribute="trailing" secondItem="H6e-nT-881" secondAttribute="trailing" id="ve4-LK-Wx7"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Lce-GN-oOb"/>
+                    <navigationItem key="navigationItem" title="Weather" largeTitleDisplayMode="always" id="Lce-GN-oOb"/>
                     <connections>
                         <outlet property="weatherTable" destination="H6e-nT-881" id="wl5-FE-U9k"/>
                     </connections>
