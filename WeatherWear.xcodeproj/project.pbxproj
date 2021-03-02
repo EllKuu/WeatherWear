@@ -17,6 +17,7 @@
 		B219F3B625ACA0FA0025CF4E /* AddDetailsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */; };
 		B219F3BA25ACC3A60025CF4E /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B219F3B825ACC3A60025CF4E /* ImageTableViewCell.swift */; };
 		B219F3BB25ACC3A60025CF4E /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */; };
+		B22D445C25EDBD8E00528E09 /* MyConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22D445B25EDBD8E00528E09 /* MyConstants.swift */; };
 		B23A467725C995EC001BC7C4 /* ClothingItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23A467525C995EC001BC7C4 /* ClothingItem+CoreDataClass.swift */; };
 		B23A467825C995EC001BC7C4 /* ClothingItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23A467625C995EC001BC7C4 /* ClothingItem+CoreDataProperties.swift */; };
 		B26D924125D2DCD4006F3A8F /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26D924025D2DCD4006F3A8F /* WeatherModel.swift */; };
@@ -44,6 +45,7 @@
 		B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddDetailsTableViewCell.xib; sourceTree = "<group>"; };
 		B219F3B825ACC3A60025CF4E /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
 		B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageTableViewCell.xib; sourceTree = "<group>"; };
+		B22D445B25EDBD8E00528E09 /* MyConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyConstants.swift; sourceTree = "<group>"; };
 		B23A467525C995EC001BC7C4 /* ClothingItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClothingItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B23A467625C995EC001BC7C4 /* ClothingItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClothingItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B26D924025D2DCD4006F3A8F /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				B26D924925D5A0C9006F3A8F /* Constants.swift */,
+				B22D445B25EDBD8E00528E09 /* MyConstants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2B1FE6225A36B7D005E285C /* ClothingCollectionViewCell.swift in Sources */,
+				B22D445C25EDBD8E00528E09 /* MyConstants.swift in Sources */,
 				B26D925725D70E6F006F3A8F /* LocationMarker.swift in Sources */,
 				B28A0267259BC3B400FA1B33 /* WeatherViewController.swift in Sources */,
 				B219F3B525ACA0FA0025CF4E /* AddDetailsTableViewCell.swift in Sources */,
