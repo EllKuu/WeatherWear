@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="179" id="KGk-i7-Jjw" customClass="WeatherDayTableViewCell" customModule="WeatherWear" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="567" height="179"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="536" height="179"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="axb-45-zPg">
+                        <rect key="frame" x="20" y="42" width="36" height="76"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lC2-8B-elf">
+                        <rect key="frame" x="79" y="10" width="50" height="139"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="yH1-3B-cHG"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NhJ-J8-OvF">
+                        <rect key="frame" x="157" y="10" width="88" height="76"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Temp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GgS-Qt-8jX">
+                        <rect key="frame" x="157" y="128" width="43" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="axb-45-zPg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" symbolic="YES" id="62m-N1-A2P"/>
+                    <constraint firstItem="NhJ-J8-OvF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="EQd-jL-M6K"/>
+                    <constraint firstItem="GgS-Qt-8jX" firstAttribute="leading" secondItem="NhJ-J8-OvF" secondAttribute="trailing" constant="-88" id="Gdr-uW-9cw"/>
+                    <constraint firstItem="lC2-8B-elf" firstAttribute="leading" secondItem="axb-45-zPg" secondAttribute="trailing" constant="23" id="J0A-DH-4Hy"/>
+                    <constraint firstItem="GgS-Qt-8jX" firstAttribute="baseline" secondItem="NhJ-J8-OvF" secondAttribute="baseline" constant="63" id="Nl5-YJ-51Q"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="lC2-8B-elf" secondAttribute="bottom" constant="19" id="dAO-d2-Iee"/>
+                    <constraint firstItem="NhJ-J8-OvF" firstAttribute="leading" secondItem="lC2-8B-elf" secondAttribute="trailing" constant="28" id="h7E-sl-BLh"/>
+                    <constraint firstAttribute="bottom" secondItem="NhJ-J8-OvF" secondAttribute="bottom" constant="93" id="l91-Ag-1kJ"/>
+                    <constraint firstItem="lC2-8B-elf" firstAttribute="top" secondItem="NhJ-J8-OvF" secondAttribute="top" id="lf1-rU-fHC"/>
+                    <constraint firstAttribute="bottom" secondItem="axb-45-zPg" secondAttribute="bottom" constant="61" id="urx-xf-7Vb"/>
+                    <constraint firstItem="axb-45-zPg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="42" id="wcD-d9-IGv"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="dateLabel" destination="axb-45-zPg" id="D3y-HI-GES"/>
+                <outlet property="descriptionLabel" destination="NhJ-J8-OvF" id="hcV-fb-8zX"/>
+                <outlet property="temperatureLabel" destination="GgS-Qt-8jX" id="2P2-J6-9ak"/>
+                <outlet property="weatherImage" destination="lC2-8B-elf" id="i0g-s3-zxe"/>
+            </connections>
+            <point key="canvasLocation" x="42.753623188405797" y="213.95089285714286"/>
+        </tableViewCell>
+    </objects>
+</document>

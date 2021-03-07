@@ -11,15 +11,13 @@ import MapKit
 class WeatherViewController: UIViewController {
 
     @IBOutlet weak var weatherTable: UITableView!
+    var weatherResult = WeatherModel()
+    var weatherDayOfTheWeek = [WeatherModel.Daily]()
     
     lazy var worldMapBtn: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(self.openMap))
         return button
     }()
-    
-    var data_latitude: Double = 0.0
-    var data_longitude: Double = 0.0
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,18 +33,19 @@ class WeatherViewController: UIViewController {
         setupBarButtons()
         
         // Header Section
-        setupHeader()
+        setupHeader(location: "No", temp: "30", date: "No", image: UIImage(systemName: "house")!, description: "Test")
+        
+        weatherTable.register(UINib(nibName: WeatherDayTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: WeatherDayTableViewCell.identifier)
     }
     
     func setupBarButtons(){
         navigationItem.rightBarButtonItem = worldMapBtn
     }
     
-    func setupHeader(){
+    func setupHeader(location: String, temp: String, date: String, image: UIImage, description: String){
         let headerNib = (Bundle.main.loadNibNamed(HeaderTableViewCell.identifier, owner: self, options: nil)![0] as? HeaderTableViewCell)
         
-        let image = UIImage(systemName: "house")
-        headerNib?.configure(location: "Toronto", temp: "30", image: image!)
+        headerNib?.configure(location: location, temp: temp, image: image, date: date, description: description)
         
         weatherTable.tableHeaderView = headerNib
     }
@@ -55,28 +54,91 @@ class WeatherViewController: UIViewController {
         let mapVC = storyboard?.instantiateViewController(identifier: "map") as! MapViewController
         
         mapVC.callBackCoordinates = { (latitude: Double, longitude: Double) in
-            let weather = WeatherModel()
-            weather.getWeatherData(latitude: latitude, longitude: longitude) {
+            self.weatherResult.getWeatherData(latitude: latitude, longitude: longitude){
                 (weatherObj) in
-                print("IN WEATHERVC")
-                print(weatherObj)
-              
+                self.weatherDataSetup(weatherData: weatherObj)
+                self.weatherTable.reloadData()
             }
         }
         
         navigationController?.pushViewController(mapVC, animated: true)
     }
     
+    func weatherDataSetup(weatherData: WeatherModel.WeatherData){
+        
+        if !weatherDayOfTheWeek.isEmpty{
+            weatherDayOfTheWeek.removeAll()
+        }
+        
+        // setup header data
+        let headerLocation = weatherData.timezone
+        let headerTemp = String("\(Int(weatherData.current.temp.rounded())) C")
+        let headerIcon = setIcon(iconID: weatherData.current.weather[0].icon)
+        let headerDate = getDate(weatherInt: weatherData.current.dt)
+        let headerDescription = weatherData.current.weather[0].description
+        setupHeader(location: headerLocation, temp: headerTemp, date: headerDate, image: headerIcon, description: headerDescription)
+        
+        for i in weatherData.daily{
+            weatherDayOfTheWeek.append(i)
+        }
+        
+        print(weatherDayOfTheWeek.count)
+        
+        
+    }
     
+    func getDate(weatherInt: Int) -> String{
+        let timeInterval = TimeInterval(weatherInt)
+        let myNSDate = Date(timeIntervalSince1970: timeInterval)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        
+        return dateFormatter.string(from: myNSDate)
 
-}
+    }
+    
+    func setIcon(iconID: String) -> UIImage{
+         switch iconID {
+         case "01d":
+             return  UIImage(systemName: "sun.max.fill")!
+         case "01n":
+             return UIImage(systemName: "sun.max")!
+         case "02d":
+             return  UIImage(systemName: "cloud.sun.fill")!
+         case "02n":
+             return  UIImage(systemName: "cloud.sun")!
+         case "03d":
+             return  UIImage(systemName: "cloud.fill")!
+         case "03n":
+             return  UIImage(systemName: "cloud")!
+         case "04d":
+             return  UIImage(systemName: "cloud")!
+         case "04n":
+             return  UIImage(systemName: "cloud")!
+         case "09d":
+             return  UIImage(systemName: "cloud.rain.fill")!
+         case "10d":
+             return  UIImage(systemName: "cloud.sun.rain.fill")!
+         case "11d":
+             return  UIImage(systemName: "cloud.bolt.rain.fill")!
+         case "13d":
+             return  UIImage(systemName: "snow")!
+         case "50d":
+             return  UIImage(systemName: "cloud.fog.fill")!
+         default:
+             return  UIImage(systemName: "questionmark.circle")!
+         }
+     }
+
+} // end of class
 
 
 extension WeatherViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-}
+} // end of extension
 
 extension WeatherViewController: UITableViewDataSource{
     
@@ -87,6 +149,7 @@ extension WeatherViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "7 Day Outlook"
     }
+    
     
 //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 //        <#code#>
@@ -102,10 +165,27 @@ extension WeatherViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "test"
+        let cell = tableView.dequeueReusableCell(withIdentifier: WeatherDayTableViewCell.identifier, for: indexPath) as! WeatherDayTableViewCell
+        if !weatherDayOfTheWeek.isEmpty{
+            let num = Int(indexPath.item)
+            let cellDate = getDate(weatherInt: weatherDayOfTheWeek[num].dt)
+            let cellTemp = String("\(Int(weatherDayOfTheWeek[num].temp.day.rounded())) C")
+            let cellIcon = setIcon(iconID: weatherDayOfTheWeek[num].weather[0].icon)
+            let cellDescription = weatherDayOfTheWeek[num].weather[0].description
+            
+            cell.configure(temp: cellTemp, image: cellIcon, date: cellDate, description: cellDescription)
+            
+        }else{
+            cell.configure(temp: "cellTemp", image: UIImage(systemName: "house")!, date: "cellDate", description: "cellDescription")
+        }
+       
+        
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected \(indexPath)")
+    }
     
-}
+    
+} // End of extension

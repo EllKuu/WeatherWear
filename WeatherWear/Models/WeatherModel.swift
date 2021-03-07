@@ -27,7 +27,6 @@ class WeatherModel {
         var temp: Temperature
         var feels_like: Feels_Like
         var weather: [Weather]
-        
     }
     
     struct Temperature: Codable{
@@ -59,7 +58,7 @@ class WeatherModel {
         
     func getWeatherData(latitude: Double, longitude: Double, completion: @escaping(WeatherData) -> Void){
         
-        guard let url = URL(string: "\(MyConstants.WEATHER_URL)lat=\(latitude)&lon=\(longitude)&exclude=minutely,hourly,alerts&appid=\(MyConstants.API_KEY)") else {return }
+        guard let url = URL(string: "\(MyConstants.WEATHER_URL)lat=\(latitude)&lon=\(longitude)&exclude=minutely,hourly,alerts&units=\(MyConstants.UNITS)&appid=\(MyConstants.API_KEY)") else {return }
             
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 DispatchQueue.main.async{
@@ -74,8 +73,6 @@ class WeatherModel {
                     do{
                         let decoder = JSONDecoder()
                         let weatherObj = try decoder.decode(WeatherData.self, from: data)
-                        print(weatherObj)
-                        
                         completion(weatherObj)
                     }catch let jsonErr{
                         print(jsonErr)

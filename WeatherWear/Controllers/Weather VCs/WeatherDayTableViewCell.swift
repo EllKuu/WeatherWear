@@ -1,28 +1,26 @@
 //
-//  HeaderTableViewCell.swift
+//  WeatherDayTableViewCell.swift
 //  WeatherWear
 //
-//  Created by elliott kung on 2021-02-10.
+//  Created by elliott kung on 2021-03-04.
 //
 
 import UIKit
 
-class HeaderTableViewCell: UITableViewCell {
+class WeatherDayTableViewCell: UITableViewCell {
 
-    static let identifier = "HeaderTableViewCell"
+    static let identifier = "WeatherDayTableViewCell"
     
-    @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
     static func nib() -> UINib{
-        return UINib(nibName: "HeaderTableViewCell", bundle: nil)
+        return UINib(nibName: "WeatherDayTableViewCell", bundle: nil)
     }
     
-    public func configure(location: String, temp: String, image: UIImage, date: String, description: String){
-        locationLabel.text = location
+    public func configure(temp: String, image: UIImage, date: String, description: String){
         temperatureLabel.text = temp
         weatherImage.image = image
         dateLabel.text = date
@@ -31,7 +29,7 @@ class HeaderTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .orange
+        //self.accessoryType = .disclosureIndicator
         
     }
 
@@ -40,6 +38,5 @@ class HeaderTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
     
 }

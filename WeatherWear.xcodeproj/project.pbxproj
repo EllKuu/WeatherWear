@@ -30,6 +30,8 @@
 		B28A026A259BC3D600FA1B33 /* ClothesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */; };
 		B28B543E25A8B4D2008331E7 /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */; };
 		B2B1FE6225A36B7D005E285C /* ClothingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */; };
+		B2FD6A6625F14EB500656318 /* WeatherDayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FD6A6425F14EB500656318 /* WeatherDayTableViewCell.swift */; };
+		B2FD6A6725F14EB500656318 /* WeatherDayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2FD6A6525F14EB500656318 /* WeatherDayTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothesViewController.swift; sourceTree = "<group>"; };
 		B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewController.swift; sourceTree = "<group>"; };
 		B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothingCollectionViewCell.swift; sourceTree = "<group>"; };
+		B2FD6A6425F14EB500656318 /* WeatherDayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDayTableViewCell.swift; sourceTree = "<group>"; };
+		B2FD6A6525F14EB500656318 /* WeatherDayTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherDayTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +144,8 @@
 			children = (
 				B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */,
 				B26D924325D42EBD006F3A8F /* HeaderTableViewCell.swift */,
+				B2FD6A6425F14EB500656318 /* WeatherDayTableViewCell.swift */,
+				B2FD6A6525F14EB500656318 /* WeatherDayTableViewCell.xib */,
 				B26D924425D42EBD006F3A8F /* HeaderTableViewCell.xib */,
 				B26D925325D6D414006F3A8F /* MapViewController.swift */,
 				B26D925625D70E6F006F3A8F /* LocationMarker.swift */,
@@ -242,6 +248,7 @@
 				B219F3BB25ACC3A60025CF4E /* ImageTableViewCell.xib in Resources */,
 				B2019CFD259A2B2F00CCFD64 /* LaunchScreen.storyboard in Resources */,
 				B2019CFA259A2B2F00CCFD64 /* Assets.xcassets in Resources */,
+				B2FD6A6725F14EB500656318 /* WeatherDayTableViewCell.xib in Resources */,
 				B219F3B625ACA0FA0025CF4E /* AddDetailsTableViewCell.xib in Resources */,
 				B26D924625D42EBD006F3A8F /* HeaderTableViewCell.xib in Resources */,
 				B2019CF5259A2B2E00CCFD64 /* Main.storyboard in Resources */,
@@ -272,6 +279,7 @@
 				B26D924125D2DCD4006F3A8F /* WeatherModel.swift in Sources */,
 				B28B543E25A8B4D2008331E7 /* AddItemTableViewController.swift in Sources */,
 				B26D925425D6D414006F3A8F /* MapViewController.swift in Sources */,
+				B2FD6A6625F14EB500656318 /* WeatherDayTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
