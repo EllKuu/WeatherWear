@@ -13,6 +13,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var weatherTable: UITableView!
     var weatherResult = WeatherModel()
     var weatherDayOfTheWeek = [WeatherModel.Daily]()
+    var headerLocation = ""
     
     lazy var worldMapBtn: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(self.openMap))
@@ -71,7 +72,7 @@ class WeatherViewController: UIViewController {
         }
         
         // setup header data
-        let headerLocation = weatherData.timezone
+        headerLocation = weatherData.timezone
         let headerTemp = String("\(Int(weatherData.current.temp.rounded())) C")
         let headerIcon = setIcon(iconID: weatherData.current.weather[0].icon)
         let headerDate = getDate(weatherInt: weatherData.current.dt)
@@ -161,6 +162,9 @@ extension WeatherViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if weatherDayOfTheWeek.isEmpty{
+            return 0
+        }
         return 7
     }
     
@@ -184,7 +188,20 @@ extension WeatherViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected \(indexPath)")
+        tableView.deselectRow(at: indexPath, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "clothingSuggestions") as! ClothingSuggestionsTableViewController
+        vc.modalPresentationStyle = .fullScreen
+        
+        
+        let cellDate = getDate(weatherInt: weatherDayOfTheWeek[indexPath.row].dt)
+        let cellTemp = String("\(Int(weatherDayOfTheWeek[indexPath.row].temp.day.rounded())) C")
+        let cellIcon = setIcon(iconID: weatherDayOfTheWeek[indexPath.row].weather[0].icon)
+        let cellDescription = weatherDayOfTheWeek[indexPath.row].weather[0].description
+        
+        vc.setupHeader(location: headerLocation, temp: cellTemp, date: cellDate, image: cellIcon, description: cellDescription)
+        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     
