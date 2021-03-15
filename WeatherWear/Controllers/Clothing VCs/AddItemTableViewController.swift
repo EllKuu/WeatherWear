@@ -63,7 +63,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         navigationController?.navigationBar.prefersLargeTitles = true
-        // if update fill all fields
+        
         let indexPath = IndexPath(row: 0, section: 0)
         let imageCell = tableView.cellForRow(at: indexPath) as! ImageTableViewCell
         let categoryCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! AddDetailsTableViewCell
@@ -72,6 +72,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         let colorCell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as! AddDetailsTableViewCell
         let seasonCell = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! AddDetailsTableViewCell
         
+        // if update fill all fields
         if isUpdate{
             if let previousItem = previousItem{
                 DispatchQueue.main.async { [weak self] in
@@ -195,7 +196,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            imageCell = tableView.cellForRow(at: indexPath) as! ImageTableViewCell
+            imageCell = (tableView.cellForRow(at: indexPath) as! ImageTableViewCell)
             imgTap()
         }
         tableView.deselectRow(at: indexPath, animated: true)
