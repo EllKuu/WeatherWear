@@ -55,8 +55,9 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.register(AddDetailsTableViewCell.nib(), forCellReuseIdentifier: AddDetailsTableViewCell.identifier)
         tableView.register(ImageTableViewCell.nib(), forCellReuseIdentifier: ImageTableViewCell.identifier)
-
-       
+        tableView.register(CategoryTableViewCell.nib(), forCellReuseIdentifier: CategoryTableViewCell.identifier)
+        
+        
         
     }
     
@@ -66,7 +67,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         
         let indexPath = IndexPath(row: 0, section: 0)
         let imageCell = tableView.cellForRow(at: indexPath) as! ImageTableViewCell
-        let categoryCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! AddDetailsTableViewCell
+        //let categoryCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! AddDetailsTableViewCell
         let subCategoryCell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! AddDetailsTableViewCell
         let brandCell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! AddDetailsTableViewCell
         let colorCell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as! AddDetailsTableViewCell
@@ -79,15 +80,15 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     imageCell.configure(with: "", image: UIImage(data: previousItem.clothingImage!)!)
                     self!.selectedImage = UIImage(data: previousItem.clothingImage!)
                     
-                    categoryCell.detailTextField.text = previousItem.clothingCategory?.capitalized
+                    //categoryCell.detailTextField.text = previousItem.clothingCategory?.capitalized
                     subCategoryCell.detailTextField.text = previousItem.clothingSubCategory?.capitalized
                     brandCell.detailTextField.text = previousItem.clothingBrand?.capitalized
                     colorCell.detailTextField.text = previousItem.clothingColor?.capitalized
                     seasonCell.detailTextField.text = previousItem.clothingSeason?.capitalized
                 }
-              
+                
             }
-           
+            
         }
     }
     
@@ -168,7 +169,15 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             
             return imageCell
             
-        }else{
+            
+            
+        }
+        else if indexPath.row == 1{
+            let categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
+            
+            return categoryCell
+        }
+        else{
             let cell = tableView.dequeueReusableCell(withIdentifier: AddDetailsTableViewCell.identifier, for: indexPath) as! AddDetailsTableViewCell
             
             switch indexPath.row {
@@ -176,16 +185,16 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                 cell.configure(with: categories[1], placeHolder: categories[1])
                 return cell
             case 2:
-                 cell.configure(with: categories[2], placeHolder: categories[2])
+                cell.configure(with: categories[2], placeHolder: categories[2])
                 return cell
             case 3:
-                 cell.configure(with: categories[3], placeHolder: categories[3])
+                cell.configure(with: categories[3], placeHolder: categories[3])
                 return cell
             case 4:
-                 cell.configure(with: categories[4], placeHolder: categories[4])
+                cell.configure(with: categories[4], placeHolder: categories[4])
                 return cell
             case 5:
-                 cell.configure(with: categories[5], placeHolder: categories[5])
+                cell.configure(with: categories[5], placeHolder: categories[5])
                 return cell
             default:
                 fatalError()
@@ -201,15 +210,18 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 250
         }
+        else if indexPath.row == 1{
+            return 250
+        }
         return 100
     }
-
-  
+    
+    
     
     @objc func imgTap(){
         let ac = UIAlertController(title: "Image Options", message: "", preferredStyle: .actionSheet)
@@ -221,32 +233,32 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     func openCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
-                   let vc = UIImagePickerController()
-                   vc.sourceType = .camera
-                   vc.delegate = self
-                   vc.allowsEditing = true
-                   self.present(vc, animated: true, completion: nil)
-               }else{
-                   let alert = UIAlertController(title: "Warning", message: "You don't have a camera", preferredStyle: .alert)
-                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                   self.present(alert, animated: true, completion: nil)
-               }
+            let vc = UIImagePickerController()
+            vc.sourceType = .camera
+            vc.delegate = self
+            vc.allowsEditing = true
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            let alert = UIAlertController(title: "Warning", message: "You don't have a camera", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func openGallery(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary){
-                   let imagePicker = UIImagePickerController()
-                   imagePicker.delegate = self
-                   imagePicker.allowsEditing = true
-                   imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-                   self.present(imagePicker, animated: true, completion: nil)
-               }else{
-                   let alert = UIAlertController(title: "Warning", message: "You don't have permision to photo library", preferredStyle: .alert)
-                   alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                   self.present(alert, animated: true, completion: nil)
-               }
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+        }else{
+            let alert = UIAlertController(title: "Warning", message: "You don't have permision to photo library", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
-
+    
 }
 
 extension AddItemTableViewController: UIImagePickerControllerDelegate{
@@ -256,7 +268,7 @@ extension AddItemTableViewController: UIImagePickerControllerDelegate{
         guard let image = info[.editedImage] as? UIImage else { return }
         dismiss(animated: true)
         selectedImage = image
-
+        
     }
     
 }

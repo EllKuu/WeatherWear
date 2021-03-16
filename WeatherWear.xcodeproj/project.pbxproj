@@ -28,6 +28,8 @@
 		B26D924A25D5A0C9006F3A8F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26D924925D5A0C9006F3A8F /* Constants.swift */; };
 		B26D925425D6D414006F3A8F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26D925325D6D414006F3A8F /* MapViewController.swift */; };
 		B26D925725D70E6F006F3A8F /* LocationMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B26D925625D70E6F006F3A8F /* LocationMarker.swift */; };
+		B2774E3C25FFB1C6005674E9 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2774E3A25FFB1C6005674E9 /* CategoryTableViewCell.swift */; };
+		B2774E3D25FFB1C6005674E9 /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2774E3B25FFB1C6005674E9 /* CategoryTableViewCell.xib */; };
 		B28A0267259BC3B400FA1B33 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */; };
 		B28A026A259BC3D600FA1B33 /* ClothesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */; };
 		B28B543E25A8B4D2008331E7 /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */; };
@@ -63,6 +65,8 @@
 		B26D924925D5A0C9006F3A8F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B26D925325D6D414006F3A8F /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B26D925625D70E6F006F3A8F /* LocationMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMarker.swift; sourceTree = "<group>"; };
+		B2774E3A25FFB1C6005674E9 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		B2774E3B25FFB1C6005674E9 /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
 		B28A0266259BC3B400FA1B33 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClothesViewController.swift; sourceTree = "<group>"; };
 		B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewController.swift; sourceTree = "<group>"; };
@@ -156,13 +160,11 @@
 		B23A467B25CD9125001BC7C4 /* Clothing VCs */ = {
 			isa = PBXGroup;
 			children = (
+				B2774E3925FFB17C005674E9 /* TableViewCells */,
+				B2774E3025FFAD2B005674E9 /* CustomButtons */,
 				B28A0269259BC3D600FA1B33 /* ClothesViewController.swift */,
 				B2B1FE6125A36B7D005E285C /* ClothingCollectionViewCell.swift */,
 				B28B543D25A8B4D2008331E7 /* AddItemTableViewController.swift */,
-				B219F3B325ACA0FA0025CF4E /* AddDetailsTableViewCell.swift */,
-				B219F3B825ACC3A60025CF4E /* ImageTableViewCell.swift */,
-				B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */,
-				B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */,
 			);
 			path = "Clothing VCs";
 			sourceTree = "<group>";
@@ -191,6 +193,26 @@
 				B22D445B25EDBD8E00528E09 /* MyConstants.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		B2774E3025FFAD2B005674E9 /* CustomButtons */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CustomButtons;
+			sourceTree = "<group>";
+		};
+		B2774E3925FFB17C005674E9 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				B219F3B325ACA0FA0025CF4E /* AddDetailsTableViewCell.swift */,
+				B219F3B825ACC3A60025CF4E /* ImageTableViewCell.swift */,
+				B219F3B925ACC3A60025CF4E /* ImageTableViewCell.xib */,
+				B219F3B425ACA0FA0025CF4E /* AddDetailsTableViewCell.xib */,
+				B2774E3A25FFB1C6005674E9 /* CategoryTableViewCell.swift */,
+				B2774E3B25FFB1C6005674E9 /* CategoryTableViewCell.xib */,
+			);
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		B2940E81259A2EDB0066C06A /* Views */ = {
@@ -277,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B219F3BB25ACC3A60025CF4E /* ImageTableViewCell.xib in Resources */,
+				B2774E3D25FFB1C6005674E9 /* CategoryTableViewCell.xib in Resources */,
 				B2019CFD259A2B2F00CCFD64 /* LaunchScreen.storyboard in Resources */,
 				B2019CFA259A2B2F00CCFD64 /* Assets.xcassets in Resources */,
 				B2117D9225F84E4C003A703A /* ClothingItemCollectionViewCell.xib in Resources */,
@@ -297,6 +320,7 @@
 			files = (
 				B2B1FE6225A36B7D005E285C /* ClothingCollectionViewCell.swift in Sources */,
 				B22D445C25EDBD8E00528E09 /* MyConstants.swift in Sources */,
+				B2774E3C25FFB1C6005674E9 /* CategoryTableViewCell.swift in Sources */,
 				B26D925725D70E6F006F3A8F /* LocationMarker.swift in Sources */,
 				B28A0267259BC3B400FA1B33 /* WeatherViewController.swift in Sources */,
 				B219F3B525ACA0FA0025CF4E /* AddDetailsTableViewCell.swift in Sources */,
