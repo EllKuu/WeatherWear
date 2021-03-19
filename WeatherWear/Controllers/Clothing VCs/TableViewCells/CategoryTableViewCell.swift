@@ -7,11 +7,29 @@
 
 import UIKit
 
-class CategoryTableViewCell: UITableViewCell {
+protocol CategoryTableViewCellDelegate: AnyObject {
+    func didTapButton(sender: UIButton, categoryBtns: [RadioButton])
+}
 
-    //let checkbox = CircleCheckBox(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+class CategoryTableViewCell: UITableViewCell {
+    
+    weak var delegate: CategoryTableViewCellDelegate?
     
     static let identifier = "CategoryTableViewCell"
+    
+    @IBOutlet var topButton: RadioButton!
+    @IBOutlet var bottomButton: RadioButton!
+    @IBOutlet var outerwearButton: RadioButton!
+    @IBOutlet var shoesButton: RadioButton!
+    @IBOutlet var otherButton: RadioButton!
+    
+    @IBOutlet var categoryButtons: [RadioButton]!
+    
+    @IBAction func didTapButton(sender: UIButton){
+       
+        delegate?.didTapButton(sender: sender, categoryBtns: categoryButtons)
+    }
+    
     
     static func nib() -> UINib{
         return UINib(nibName: "CategoryTableViewCell", bundle: nil)
@@ -21,11 +39,8 @@ class CategoryTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        let label = UILabel(frame: CGRect(x: 20, y: 5, width: 200, height: 70))
-        label.text = "Tops"
         
-        //contentView.addSubview(label)
-        //contentView.addSubview(checkbox)
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -33,5 +48,6 @@ class CategoryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
     
 }

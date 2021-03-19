@@ -9,54 +9,81 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryTableViewCell" rowHeight="231" id="KGk-i7-Jjw" customClass="CategoryTableViewCell" customModule="WeatherWear" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="604" height="231"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryTableViewCell" rowHeight="285" id="KGk-i7-Jjw" customClass="CategoryTableViewCell" customModule="WeatherWear" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="604" height="285"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM" customClass="CategoryTableViewCell" customModule="WeatherWear" customModuleProvider="target">
-                <rect key="frame" x="0.0" y="0.0" width="604" height="231"/>
+                <rect key="frame" x="0.0" y="0.0" width="604" height="285"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="GXi-ZL-v8C">
-                        <rect key="frame" x="10" y="10" width="584" height="211"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Zp1-Ac-Ipq">
+                        <rect key="frame" x="10" y="10" width="584" height="275"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bK-1t-LqM">
-                                <rect key="frame" x="0.0" y="0.0" width="33" height="36.5"/>
-                                <state key="normal" title="Tops"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1m-CD-Ekx">
+                                <rect key="frame" x="0.0" y="0.0" width="70" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ows-Vp-ehL" customClass="RadioButton" customModule="WeatherWear" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="49" width="30" height="29.5"/>
+                                <state key="normal" title="Top"/>
+                                <connections>
+                                    <action selector="didTapButtonWithSender:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="h5C-kN-ZM0"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F5h-Cd-ZVs" userLabel="Bottoms">
-                                <rect key="frame" x="0.0" y="42.5" width="58" height="36.5"/>
-                                <state key="normal" title="Bottoms"/>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yr5-zY-rIO" customClass="RadioButton" customModule="WeatherWear" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="98.5" width="51" height="29"/>
+                                <state key="normal" title="Bottom"/>
+                                <connections>
+                                    <action selector="didTapButtonWithSender:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="zjx-ZC-GB7"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SQe-LQ-oGN" userLabel="OuterWear">
-                                <rect key="frame" x="0.0" y="85" width="75" height="36"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="75" id="BCc-5H-u4p"/>
-                                </constraints>
-                                <state key="normal" title="OuterWear"/>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Gd-kB-8gq" customClass="RadioButton" customModule="WeatherWear" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="147.5" width="72" height="29"/>
+                                <state key="normal" title="Outerwear"/>
+                                <connections>
+                                    <action selector="didTapButtonWithSender:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="mXE-5N-zYe"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0w-MR-e5e" userLabel="Shoes">
-                                <rect key="frame" x="0.0" y="127" width="43" height="36.5"/>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ttD-Xz-8se" customClass="RadioButton" customModule="WeatherWear" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="196.5" width="43" height="29.5"/>
                                 <state key="normal" title="Shoes"/>
+                                <connections>
+                                    <action selector="didTapButtonWithSender:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="w1A-fc-HzO"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xqM-7X-f2E" userLabel="Accesories">
-                                <rect key="frame" x="0.0" y="169.5" width="75" height="41.5"/>
-                                <state key="normal" title="Accesories"/>
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="019-Tl-K2s" customClass="RadioButton" customModule="WeatherWear" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="246" width="39" height="29"/>
+                                <state key="normal" title="Other"/>
+                                <connections>
+                                    <action selector="didTapButtonWithSender:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="O3T-gE-Vwj"/>
+                                </connections>
                             </button>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="SQe-LQ-oGN" firstAttribute="centerX" secondItem="xqM-7X-f2E" secondAttribute="centerX" id="kk1-Ah-VaV"/>
-                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="GXi-ZL-v8C" secondAttribute="bottom" constant="10" id="3Fe-nT-jDl"/>
-                    <constraint firstItem="GXi-ZL-v8C" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="6x3-SJ-iD6"/>
-                    <constraint firstItem="GXi-ZL-v8C" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="ute-La-TZ7"/>
-                    <constraint firstAttribute="trailing" secondItem="GXi-ZL-v8C" secondAttribute="trailing" constant="10" id="xDD-UD-tUf"/>
+                    <constraint firstAttribute="trailing" secondItem="Zp1-Ac-Ipq" secondAttribute="trailing" constant="10" id="Qnq-Rj-MYM"/>
+                    <constraint firstItem="Zp1-Ac-Ipq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="auf-mH-0Gt"/>
+                    <constraint firstAttribute="bottom" secondItem="Zp1-Ac-Ipq" secondAttribute="bottom" id="tL1-n7-s0L"/>
+                    <constraint firstItem="Zp1-Ac-Ipq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="xdB-9h-aVm"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <point key="canvasLocation" x="-257.97101449275362" y="66.629464285714278"/>
+            <connections>
+                <outlet property="bottomButton" destination="Yr5-zY-rIO" id="l30-D3-lct"/>
+                <outlet property="otherButton" destination="019-Tl-K2s" id="XGr-F2-yBS"/>
+                <outlet property="outerwearButton" destination="7Gd-kB-8gq" id="1Eg-xa-jQl"/>
+                <outlet property="shoesButton" destination="ttD-Xz-8se" id="KhT-PP-Uhg"/>
+                <outlet property="topButton" destination="Ows-Vp-ehL" id="dRi-Ws-k5e"/>
+                <outletCollection property="categoryButtons" destination="Ows-Vp-ehL" collectionClass="NSMutableArray" id="UxT-5R-8dT"/>
+                <outletCollection property="categoryButtons" destination="Yr5-zY-rIO" collectionClass="NSMutableArray" id="3m6-ha-xan"/>
+                <outletCollection property="categoryButtons" destination="7Gd-kB-8gq" collectionClass="NSMutableArray" id="60y-if-izS"/>
+                <outletCollection property="categoryButtons" destination="ttD-Xz-8se" collectionClass="NSMutableArray" id="LQU-zS-5eB"/>
+                <outletCollection property="categoryButtons" destination="019-Tl-K2s" collectionClass="NSMutableArray" id="NfI-jN-LWD"/>
+            </connections>
+            <point key="canvasLocation" x="-257.97101449275362" y="47.879464285714285"/>
         </tableViewCell>
     </objects>
 </document>

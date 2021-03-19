@@ -67,7 +67,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         
         let indexPath = IndexPath(row: 0, section: 0)
         let imageCell = tableView.cellForRow(at: indexPath) as! ImageTableViewCell
-        //let categoryCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! AddDetailsTableViewCell
+        let categoryCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! CategoryTableViewCell
         let subCategoryCell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! AddDetailsTableViewCell
         let brandCell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! AddDetailsTableViewCell
         let colorCell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as! AddDetailsTableViewCell
@@ -80,7 +80,12 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     imageCell.configure(with: "", image: UIImage(data: previousItem.clothingImage!)!)
                     self!.selectedImage = UIImage(data: previousItem.clothingImage!)
                     
-                    //categoryCell.detailTextField.text = previousItem.clothingCategory?.capitalized
+                    for btn in categoryCell.categoryButtons{
+                        if previousItem.clothingCategory?.capitalized == btn.titleLabel?.text{
+                            btn.isChecked = true
+                        }
+                    }
+                    
                     subCategoryCell.detailTextField.text = previousItem.clothingSubCategory?.capitalized
                     brandCell.detailTextField.text = previousItem.clothingBrand?.capitalized
                     colorCell.detailTextField.text = previousItem.clothingColor?.capitalized
@@ -97,6 +102,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         var clothingItem: ClothingItem?
         
         var fieldIsEmpty = false
+        var categoryCheckBoxesAllEmpty = false
         var itemDetails = [String]()
         
         if isUpdate {
@@ -108,45 +114,79 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         // check if image was set
         if hasSetImage{
             // check if any fields are empty
-            for index in 1...5{
-                let indexPath = IndexPath(row: index, section: 0)
-                let cell: AddDetailsTableViewCell = self.tableView.cellForRow(at: indexPath) as! AddDetailsTableViewCell
-                if cell.detailTextField.text == ""{
-                    fieldIsEmpty = true
-                    break
-                }
-                if let details = cell.detailTextField.text{
-                    // string checking and manipulation
-                    let finalString = details.replacingOccurrences(of: " ", with: "").lowercased()
-                    itemDetails.append(finalString)
+            
+            // Check Category Table Cell
+            let firstIndexPath = IndexPath(row: 1, section: 0)
+                let categoryCell: CategoryTableViewCell = self.tableView.cellForRow(at: firstIndexPath) as! CategoryTableViewCell
+                var btnStatusCount = 0
+                
+                for categoryBtn in  categoryCell.categoryButtons{
+                    if categoryBtn.isChecked == false {
+                        btnStatusCount+=1
+                    }else{
+                        if let btnTitle = categoryBtn.titleLabel?.text{
+                            itemDetails.append(btnTitle.lowercased())
+                        }
+                        
+                    }
                 }
                 
-            }
+                if btnStatusCount == 4 {
+                    categoryCheckBoxesAllEmpty = true
+                }
+            
+            
+            
+            
+            for index in 2...5{
+                let indexPath = IndexPath(row: index, section: 0)
+                
+                    let cell: AddDetailsTableViewCell = self.tableView.cellForRow(at: indexPath) as! AddDetailsTableViewCell
+                    if cell.detailTextField.text == ""{
+                        fieldIsEmpty = true
+                        break
+                    }
+                    if let details = cell.detailTextField.text{
+                        // string checking and manipulation
+                        let finalString = details.replacingOccurrences(of: " ", with: "").lowercased()
+                        itemDetails.append(finalString)
+                    }
+                
+            }// end of for loop for table cells
         }
         
-        if fieldIsEmpty || !hasSetImage {
+        
+        if fieldIsEmpty || !hasSetImage || categoryCheckBoxesAllEmpty {
             let alert = UIAlertController(title: "Fill in all fields", message: "", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
+        }else{
+            // save the data
+            if !itemDetails.isEmpty{
+                print(itemDetails)
+                clothingItem?.clothingId = UUID().uuidString
+                clothingItem?.clothingImage = selectedImage?.pngData()
+                clothingItem?.clothingCategory = itemDetails[0]
+                clothingItem?.clothingSubCategory = itemDetails[1]
+                clothingItem?.clothingBrand = itemDetails[2]
+                clothingItem?.clothingColor = itemDetails[3]
+                clothingItem?.clothingSeason = itemDetails[4]
+                
+                do {
+                    print("saving")
+                    try self.context.save()
+                }catch{
+                    fatalError("Could not save item")
+                }
+                
+                isUpdate = false
+                navigationController?.popViewController(animated: true)
+            }else{
+                print("could not save here")
+            }
         }
         
-        // save the data
-        clothingItem?.clothingId = UUID().uuidString
-        clothingItem?.clothingImage = selectedImage?.pngData()
-        clothingItem?.clothingCategory = itemDetails[0]
-        clothingItem?.clothingSubCategory = itemDetails[1]
-        clothingItem?.clothingBrand = itemDetails[2]
-        clothingItem?.clothingColor = itemDetails[3]
-        clothingItem?.clothingSeason = itemDetails[4]
         
-        do {
-            try self.context.save()
-        }catch{
-            fatalError("Could not save item")
-        }
-        
-        isUpdate = false
-        navigationController?.popViewController(animated: true)
         
     }
     
@@ -174,6 +214,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         }
         else if indexPath.row == 1{
             let categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
+            categoryCell.delegate = self
             
             return categoryCell
         }
@@ -181,9 +222,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             let cell = tableView.dequeueReusableCell(withIdentifier: AddDetailsTableViewCell.identifier, for: indexPath) as! AddDetailsTableViewCell
             
             switch indexPath.row {
-            case 1:
-                cell.configure(with: categories[1], placeHolder: categories[1])
-                return cell
             case 2:
                 cell.configure(with: categories[2], placeHolder: categories[2])
                 return cell
@@ -270,5 +308,26 @@ extension AddItemTableViewController: UIImagePickerControllerDelegate{
         selectedImage = image
         
     }
+    
+    
+    
+}
+
+extension AddItemTableViewController: CategoryTableViewCellDelegate{
+    
+    func didTapButton(sender: UIButton, categoryBtns: [RadioButton]) {
+        for button in categoryBtns{
+            if button.tag != sender.tag {
+                button.isChecked = false
+            }
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
     
 }
