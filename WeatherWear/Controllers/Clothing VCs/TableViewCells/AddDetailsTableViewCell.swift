@@ -8,7 +8,7 @@
 import UIKit
 
 class AddDetailsTableViewCell: UITableViewCell, UITextFieldDelegate {
-
+    
     static let identifier = "AddDetailsTableViewCell"
     
     static func nib() -> UINib{
@@ -23,6 +23,8 @@ class AddDetailsTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet var detailLabel: UILabel!
     @IBOutlet var detailTextField: UITextField!
     
+    var textViewTextChangeCallback: ((String) -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         detailTextField.delegate = self
@@ -33,11 +35,22 @@ class AddDetailsTableViewCell: UITableViewCell, UITextFieldDelegate {
         detailTextField.resignFirstResponder()
         return true
     }
-
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textViewTextChangeCallback?(textField.text!)
+    }
+    
+    
+    
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
 }
+
+

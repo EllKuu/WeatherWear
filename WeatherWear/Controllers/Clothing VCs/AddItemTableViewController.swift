@@ -42,6 +42,13 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         }
     }
     var previousItem: ClothingItem?
+    var localClothingItem: ClothingItem?
+    
+    var clothing_category: String?
+    var clothing_subcategory: String?
+    var clothing_brand: String?
+    var clothing_color: String?
+    var clothing_season: String?
     
     
     override func viewDidLoad() {
@@ -101,94 +108,40 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         
         var clothingItem: ClothingItem?
         
-        var fieldIsEmpty = false
-        var categoryCheckBoxesAllEmpty = false
-        var itemDetails = [String]()
-        
         if isUpdate {
             clothingItem = previousItem
         }else{
             clothingItem = ClothingItem(context: self.context)
         }
-        
+        print(localClothingItem as Any)
         // check if image was set
         if hasSetImage{
-            // check if any fields are empty
+            // check if any properties of local clothing item have not been set
+            clothingItem?.clothingId = UUID().uuidString
+            clothingItem?.clothingImage = selectedImage?.pngData()
+            clothingItem?.clothingCategory = clothing_category
+            clothingItem?.clothingSubCategory = clothing_subcategory
+            clothingItem?.clothingBrand = clothing_brand
+            clothingItem?.clothingColor = clothing_color
+            clothingItem?.clothingSeason = clothing_season
+            print(clothingItem as Any)
+            do {
+                print("saving")
+                try self.context.save()
+            }catch{
+                fatalError("Could not save item")
+            }
             
-            // Check Category Table Cell
-            let firstIndexPath = IndexPath(row: 1, section: 0)
-                let categoryCell: CategoryTableViewCell = self.tableView.cellForRow(at: firstIndexPath) as! CategoryTableViewCell
-                var btnStatusCount = 0
-                
-                for categoryBtn in  categoryCell.categoryButtons{
-                    if categoryBtn.isChecked == false {
-                        btnStatusCount+=1
-                    }else{
-                        if let btnTitle = categoryBtn.titleLabel?.text{
-                            itemDetails.append(btnTitle.lowercased())
-                        }
-                        
-                    }
-                }
-                
-                if btnStatusCount == 4 {
-                    categoryCheckBoxesAllEmpty = true
-                }
-            
-            
-            
-            
-            for index in 2...5{
-                let indexPath = IndexPath(row: index, section: 0)
-                
-                    let cell: AddDetailsTableViewCell = self.tableView.cellForRow(at: indexPath) as! AddDetailsTableViewCell
-                    if cell.detailTextField.text == ""{
-                        fieldIsEmpty = true
-                        break
-                    }
-                    if let details = cell.detailTextField.text{
-                        // string checking and manipulation
-                        let finalString = details.replacingOccurrences(of: " ", with: "").lowercased()
-                        itemDetails.append(finalString)
-                    }
-                
-            }// end of for loop for table cells
-        }
-        
-        
-        if fieldIsEmpty || !hasSetImage || categoryCheckBoxesAllEmpty {
+            isUpdate = false
+            navigationController?.popViewController(animated: true)
+        }else{
             let alert = UIAlertController(title: "Fill in all fields", message: "", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
-        }else{
-            // save the data
-            if !itemDetails.isEmpty{
-                print(itemDetails)
-                clothingItem?.clothingId = UUID().uuidString
-                clothingItem?.clothingImage = selectedImage?.pngData()
-                clothingItem?.clothingCategory = itemDetails[0]
-                clothingItem?.clothingSubCategory = itemDetails[1]
-                clothingItem?.clothingBrand = itemDetails[2]
-                clothingItem?.clothingColor = itemDetails[3]
-                clothingItem?.clothingSeason = itemDetails[4]
-                
-                do {
-                    print("saving")
-                    try self.context.save()
-                }catch{
-                    fatalError("Could not save item")
-                }
-                
-                isUpdate = false
-                navigationController?.popViewController(animated: true)
-            }else{
-                print("could not save here")
-            }
         }
-        
-        
-        
-    }
+    } //end of save item
+    
+    
     
     // MARK: TableView Functions
     
@@ -209,8 +162,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             
             return imageCell
             
-            
-            
         }
         else if indexPath.row == 1{
             let categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
@@ -224,15 +175,31 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             switch indexPath.row {
             case 2:
                 cell.configure(with: categories[2], placeHolder: categories[2])
+                cell.textViewTextChangeCallback = { [unowned self] text in
+                    print(text)
+                    clothing_subcategory = text
+                }
                 return cell
             case 3:
                 cell.configure(with: categories[3], placeHolder: categories[3])
+                cell.textViewTextChangeCallback = { [unowned self] text in
+                    print(text)
+                    clothing_brand = text
+                }
                 return cell
             case 4:
                 cell.configure(with: categories[4], placeHolder: categories[4])
+                cell.textViewTextChangeCallback = { [unowned self] text in
+                    print(text)
+                  clothing_color = text
+                }
                 return cell
             case 5:
                 cell.configure(with: categories[5], placeHolder: categories[5])
+                cell.textViewTextChangeCallback = { [unowned self] text in
+                    print(text)
+                    clothing_season = text
+                }
                 return cell
             default:
                 fatalError()
@@ -321,13 +288,9 @@ extension AddItemTableViewController: CategoryTableViewCellDelegate{
                 button.isChecked = false
             }
         }
+        clothing_category = sender.titleLabel?.text
         
     }
-    
-    
-    
-    
-    
-    
-    
 }
+
+
