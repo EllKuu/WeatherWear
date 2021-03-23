@@ -23,12 +23,18 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         return button
     }()
     
+    lazy var cancelButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelSave))
+        return button
+    }()
+    
     var imageCell: ImageTableViewCell?
     
     var hasSetImage = false
+    
     var selectedImage: UIImage?{
         didSet{
-            imageCell?.configure(with: "", image: selectedImage!)
+            imageCell?.configure(with: "", image: (selectedImage)!)
             hasSetImage = true
         }
     }
@@ -42,7 +48,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         }
     }
     var previousItem: ClothingItem?
-    var localClothingItem: ClothingItem?
     
     var clothing_category: String?
     var clothing_subcategory: String?
@@ -58,11 +63,13 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = saveButton
+        navigationItem.leftBarButtonItem = cancelButton
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.register(AddDetailsTableViewCell.nib(), forCellReuseIdentifier: AddDetailsTableViewCell.identifier)
         tableView.register(ImageTableViewCell.nib(), forCellReuseIdentifier: ImageTableViewCell.identifier)
         tableView.register(CategoryTableViewCell.nib(), forCellReuseIdentifier: CategoryTableViewCell.identifier)
+        tableView.register(SeasonTableViewCell.nib(), forCellReuseIdentifier: SeasonTableViewCell.identifier)
         
         
         
@@ -72,23 +79,25 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         super.viewWillAppear(true)
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        let indexPath = IndexPath(row: 0, section: 0)
-        let imageCell = tableView.cellForRow(at: indexPath) as! ImageTableViewCell
+    
+        let imageCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! ImageTableViewCell
         let categoryCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! CategoryTableViewCell
         let subCategoryCell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! AddDetailsTableViewCell
         let brandCell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as! AddDetailsTableViewCell
         let colorCell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as! AddDetailsTableViewCell
-        let seasonCell = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! AddDetailsTableViewCell
+        let seasonCell = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! SeasonTableViewCell
         
         // if update fill all fields
         if isUpdate{
             if let previousItem = previousItem{
                 DispatchQueue.main.async { [weak self] in
                     imageCell.configure(with: "", image: UIImage(data: previousItem.clothingImage!)!)
+                    
                     self!.selectedImage = UIImage(data: previousItem.clothingImage!)
+                    imageCell.imageView?.image = self!.selectedImage
                     
                     for btn in categoryCell.categoryButtons{
-                        if previousItem.clothingCategory?.capitalized == btn.titleLabel?.text{
+                        if previousItem.clothingCategory?.capitalized == btn.titleLabel?.text?.capitalized{
                             btn.isChecked = true
                         }
                     }
@@ -96,7 +105,16 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     subCategoryCell.detailTextField.text = previousItem.clothingSubCategory?.capitalized
                     brandCell.detailTextField.text = previousItem.clothingBrand?.capitalized
                     colorCell.detailTextField.text = previousItem.clothingColor?.capitalized
-                    seasonCell.detailTextField.text = previousItem.clothingSeason?.capitalized
+                    //seasonCell.detailTextField.text = previousItem.clothingSeason?.capitalized
+                    
+                
+                    self?.clothing_category = previousItem.clothingCategory
+                    self?.clothing_subcategory = previousItem.clothingSubCategory
+                    self?.clothing_brand = previousItem.clothingBrand
+                    self?.clothing_color = previousItem.clothingBrand
+                    self?.clothing_season = previousItem.clothingSeason
+                    
+                   
                 }
                 
             }
@@ -104,19 +122,27 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         }
     }
     
+    @objc func cancelSave(){
+        //dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    
     @objc func saveItem(){
         
         var clothingItem: ClothingItem?
         
         if isUpdate {
             clothingItem = previousItem
+            clothingItem?.clothingImage = selectedImage?.pngData()
+            clothingItem?.clothingCategory = clothing_category
+            clothingItem?.clothingSubCategory = clothing_subcategory
+            clothingItem?.clothingBrand = clothing_brand
+            clothingItem?.clothingColor = clothing_color
+            clothingItem?.clothingSeason = clothing_season
+            
         }else{
             clothingItem = ClothingItem(context: self.context)
-        }
-        print(localClothingItem as Any)
-        // check if image was set
-        if hasSetImage{
-            // check if any properties of local clothing item have not been set
             clothingItem?.clothingId = UUID().uuidString
             clothingItem?.clothingImage = selectedImage?.pngData()
             clothingItem?.clothingCategory = clothing_category
@@ -124,23 +150,31 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             clothingItem?.clothingBrand = clothing_brand
             clothingItem?.clothingColor = clothing_color
             clothingItem?.clothingSeason = clothing_season
+        }
+       
+        // check for empty fields
+        if hasSetImage && clothingItem?.clothingCategory != nil && clothingItem?.clothingSubCategory != nil && clothingItem?.clothingBrand != nil && clothingItem?.clothingColor != nil && clothingItem?.clothingSeason != nil{
+           
             print(clothingItem as Any)
             do {
                 print("saving")
                 try self.context.save()
+                isUpdate = false
+                navigationController?.popViewController(animated: true)
             }catch{
                 fatalError("Could not save item")
             }
             
-            isUpdate = false
-            navigationController?.popViewController(animated: true)
+           
         }else{
             let alert = UIAlertController(title: "Fill in all fields", message: "", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
+            context.delete(clothingItem!)
         }
+        
+        
     } //end of save item
-    
     
     
     // MARK: TableView Functions
@@ -169,6 +203,13 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             
             return categoryCell
         }
+        else if indexPath.row == 5{
+            let seasonCell = tableView.dequeueReusableCell(withIdentifier: SeasonTableViewCell.identifier, for: indexPath) as! SeasonTableViewCell
+            seasonCell.delegate = self
+            
+            return seasonCell
+        }
+        
         else{
             let cell = tableView.dequeueReusableCell(withIdentifier: AddDetailsTableViewCell.identifier, for: indexPath) as! AddDetailsTableViewCell
             
@@ -194,13 +235,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                   clothing_color = text
                 }
                 return cell
-            case 5:
-                cell.configure(with: categories[5], placeHolder: categories[5])
-                cell.textViewTextChangeCallback = { [unowned self] text in
-                    print(text)
-                    clothing_season = text
-                }
-                return cell
             default:
                 fatalError()
             }
@@ -220,7 +254,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         if indexPath.row == 0 {
             return 250
         }
-        else if indexPath.row == 1{
+        else if indexPath.row == 1 || indexPath.row == 5{
             return 250
         }
         return 100
@@ -282,7 +316,7 @@ extension AddItemTableViewController: UIImagePickerControllerDelegate{
 
 extension AddItemTableViewController: CategoryTableViewCellDelegate{
     
-    func didTapButton(sender: UIButton, categoryBtns: [RadioButton]) {
+    func didTapCategoryButton(sender: UIButton, categoryBtns: [RadioButton]) {
         for button in categoryBtns{
             if button.tag != sender.tag {
                 button.isChecked = false
@@ -293,4 +327,39 @@ extension AddItemTableViewController: CategoryTableViewCellDelegate{
     }
 }
 
+
+extension AddItemTableViewController: SeasonTableViewCellDelegate{
+    func didTapButton(sender: UIButton, summer: RadioButton, spring: RadioButton, fall: RadioButton, winter: RadioButton) {
+        
+        switch sender.tag{
+        case 1:
+            if !summer.isChecked{
+                print(sender.titleLabel?.text)
+            }else{
+                print("false")
+            }
+        case 2:
+            if !spring.isChecked{
+                print(sender.titleLabel?.text)
+            }else{
+                print("false")
+            }
+        case 3:
+            if !fall.isChecked{
+                print(sender.titleLabel?.text)
+            }else{
+                print("false")
+            }
+        case 4:
+            if !winter.isChecked{
+                print(sender.titleLabel?.text)
+            }else{
+                print("false")
+            }
+        default:
+            print("")
+        }
+    }
+
+}
 

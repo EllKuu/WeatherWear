@@ -155,6 +155,13 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         vc.modalPresentationStyle = .fullScreen
         vc.titleVC = "Add Item"
         navigationController?.pushViewController(vc, animated: true)
+        
+//        let addItemVC = UINavigationController(rootViewController: AddItemTableViewController())
+//        addItemVC.modalPresentationStyle = .fullScreen
+//        addItemVC.title = "Add Item"
+//        present(addItemVC, animated: true)
+        // presenting vs push there is a difference 
+        
     }
     
     @objc func selectItem(){
@@ -236,10 +243,13 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
           } else {
             clothing = clothingItems[indexPath.row]
           }
+        
+        
 
         
-        if let image = UIImage(data: (clothing.clothingImage)!){
-            cell.configure(image: image)
+        if let image = clothing.clothingImage {
+            let dataImage = UIImage(data: image)
+            cell.configure(image: dataImage!)
             cell.contentMode = .scaleAspectFill
         }
         

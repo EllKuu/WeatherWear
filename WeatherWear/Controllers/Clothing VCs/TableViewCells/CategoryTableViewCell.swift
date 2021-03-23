@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CategoryTableViewCellDelegate: AnyObject {
-    func didTapButton(sender: UIButton, categoryBtns: [RadioButton])
+    func didTapCategoryButton(sender: UIButton, categoryBtns: [RadioButton])
 }
 
 class CategoryTableViewCell: UITableViewCell {
@@ -27,7 +27,7 @@ class CategoryTableViewCell: UITableViewCell {
     
     @IBAction func didTapButton(sender: UIButton){
        
-        delegate?.didTapButton(sender: sender, categoryBtns: categoryButtons)
+        delegate?.didTapCategoryButton(sender: sender, categoryBtns: categoryButtons)
     }
     
     
