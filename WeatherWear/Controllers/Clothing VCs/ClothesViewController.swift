@@ -296,8 +296,8 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
                     $0.clothing.clothingCategory == compareText ||
                     $0.clothing.clothingSubCategory == compareText ||
                     $0.clothing.clothingBrand == compareText ||
-                    $0.clothing.clothingColor == compareText ||
-                    $0.clothing.clothingSeason == compareText
+                    $0.clothing.clothingColor == compareText
+                        //|| $0.clothing.clothingSeason == compareText
         })
         DispatchQueue.main.async {
             self.collectionView?.reloadData()

@@ -2,7 +2,7 @@
 //  ClothingItem+CoreDataProperties.swift
 //  WeatherWear
 //
-//  Created by elliott kung on 2021-02-02.
+//  Created by elliott kung on 2021-03-24.
 //
 //
 
@@ -19,10 +19,10 @@ extension ClothingItem {
     @NSManaged public var clothingBrand: String?
     @NSManaged public var clothingCategory: String?
     @NSManaged public var clothingColor: String?
-    @NSManaged public var clothingImage: Data?
-    @NSManaged public var clothingSeason: String?
-    @NSManaged public var clothingSubCategory: String?
     @NSManaged public var clothingId: String?
+    @NSManaged public var clothingImage: Data?
+    @NSManaged public var clothingSeason: [String]?
+    @NSManaged public var clothingSubCategory: String?
 
 }
 

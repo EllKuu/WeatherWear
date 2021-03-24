@@ -53,7 +53,8 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     var clothing_subcategory: String?
     var clothing_brand: String?
     var clothing_color: String?
-    var clothing_season: String?
+    var clothing_season: [String]?
+    var seasons = [String]()
     
     
     override func viewDidLoad() {
@@ -102,10 +103,20 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                         }
                     }
                     
+                    for seasonBtn in seasonCell.seasonButtons{
+                        //print("HELLO \(seasonBtn.titleLabel?.text)")
+                        previousItem.clothingSeason?.forEach({ season in
+                            print("HELLO \(season)")
+                            if seasonBtn.titleLabel?.text == season{
+                                seasonBtn.isChecked = true
+                            }
+                        })
+                    }
+                    
                     subCategoryCell.detailTextField.text = previousItem.clothingSubCategory?.capitalized
                     brandCell.detailTextField.text = previousItem.clothingBrand?.capitalized
                     colorCell.detailTextField.text = previousItem.clothingColor?.capitalized
-                    //seasonCell.detailTextField.text = previousItem.clothingSeason?.capitalized
+                    
                     
                 
                     self?.clothing_category = previousItem.clothingCategory
@@ -113,10 +124,9 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     self?.clothing_brand = previousItem.clothingBrand
                     self?.clothing_color = previousItem.clothingBrand
                     self?.clothing_season = previousItem.clothingSeason
+                    self?.seasons = previousItem.clothingSeason!
                     
-                   
                 }
-                
             }
             
         }
@@ -330,36 +340,56 @@ extension AddItemTableViewController: CategoryTableViewCellDelegate{
 
 extension AddItemTableViewController: SeasonTableViewCellDelegate{
     func didTapButton(sender: UIButton, summer: RadioButton, spring: RadioButton, fall: RadioButton, winter: RadioButton) {
-        
+       
         switch sender.tag{
         case 1:
             if !summer.isChecked{
-                print(sender.titleLabel?.text)
+                //print(sender.titleLabel?.text)
+                seasons.append("Summer")
             }else{
                 print("false")
+                while let idx = seasons.firstIndex(of: "Summer"){
+                    seasons.remove(at: idx)
+                }
             }
         case 2:
             if !spring.isChecked{
-                print(sender.titleLabel?.text)
+                //print(sender.titleLabel?.text)
+                seasons.append("Spring")
+                
             }else{
                 print("false")
+                while let idx = seasons.firstIndex(of: "Spring"){
+                    seasons.remove(at: idx)
+                }
             }
         case 3:
             if !fall.isChecked{
-                print(sender.titleLabel?.text)
+                //print(sender.titleLabel?.text)
+                seasons.append("Fall")
             }else{
                 print("false")
+                while let idx = seasons.firstIndex(of: "Fall"){
+                    seasons.remove(at: idx)
+                }
             }
         case 4:
             if !winter.isChecked{
-                print(sender.titleLabel?.text)
+                //print(sender.titleLabel?.text)
+                seasons.append("Winter")
             }else{
                 print("false")
+                while let idx = seasons.firstIndex(of: "Winter"){
+                    seasons.remove(at: idx)
+                }
             }
         default:
             print("")
         }
-    }
+        
+        clothing_season = seasons
+        //print(seasons)
+    } // end of didTapButton
 
 }
 
