@@ -8,10 +8,11 @@
 import UIKit
 
 class ClothingSuggestionsTableViewController: UITableViewController {
-
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var clothingSuggestions:[ClothingItem] = []
-    
+    var temperature: Int?
+    var season = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,8 +21,15 @@ class ClothingSuggestionsTableViewController: UITableViewController {
         tableView.register(ClothingCollectionTableViewCell.nib(), forCellReuseIdentifier: ClothingCollectionTableViewCell.identifier)
         
         fetchItems()
-
+        guard let temperature = temperature else {
+            return
+        }
+        sortItemsBySeason(temperature: temperature)
+        
+       
+        
     }
+    
     
     func fetchItems(){
         do {
@@ -31,6 +39,21 @@ class ClothingSuggestionsTableViewController: UITableViewController {
         }
     }
     
+    /// takes in a temperature and returns the season
+    func sortItemsBySeason(temperature: Int){
+        
+        if temperature >= 20{
+            season = "Summer"
+        }else if temperature >= 8 && temperature <= 19{
+            season = "Fall"
+        }else if temperature >= 1 && temperature <= 8{
+            season = "Spring"
+        }else if temperature < 0{
+            season = "Winter"
+        }
+
+    }
+    
     func setupHeader(location: String, temp: String, date: String, image: UIImage, description: String){
         let headerNib = (Bundle.main.loadNibNamed(HeaderTableViewCell.identifier, owner: self, options: nil)![0] as? HeaderTableViewCell)
         
@@ -38,24 +61,58 @@ class ClothingSuggestionsTableViewController: UITableViewController {
         
         self.tableView.tableHeaderView = headerNib
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 5
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 1
     }
     
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ClothingCollectionTableViewCell.identifier, for: indexPath) as! ClothingCollectionTableViewCell
-        cell.configure(with: clothingSuggestions)
-        return cell
-    }
+        
+       
+        
+        switch indexPath.section{
+        case 0:
+            cell.configure(with: clothingSuggestions.filter({
+                ($0.clothingSeason?.contains(season))! && $0.clothingCategory?.capitalized == "Top"
+               
+            }))
+            return cell
+        case 1:
+            cell.configure(with: clothingSuggestions.filter({
+                ($0.clothingSeason?.contains(season))! && $0.clothingCategory?.capitalized == "Bottom"
+            }))
+            return cell
+        case 2:
+            cell.configure(with: clothingSuggestions.filter({
+                ($0.clothingSeason?.contains(season))! && $0.clothingCategory?.capitalized == "Outerwear"
+            }))
+            return cell
+        case 3:
+            cell.configure(with: clothingSuggestions.filter({
+                ($0.clothingSeason?.contains(season))! && $0.clothingCategory?.capitalized == "Shoes"
+            }))
+            return cell
+        case 4:
+            cell.configure(with: clothingSuggestions.filter({
+                ($0.clothingSeason?.contains(season))! && $0.clothingCategory?.capitalized == "Other"
+            }))
+            return cell
+        default:
+            cell.configure(with: clothingSuggestions)
+            return cell
+        }
+    } // end of cellForRowAt
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 250
@@ -75,16 +132,16 @@ class ClothingSuggestionsTableViewController: UITableViewController {
         case 2:
             return "Outerwear"
         case 3:
-            return "Accessory"
-        case 4:
             return "Shoes"
+        case 4:
+            return "Other"
         default:
             return nil
         }
     }
     
     
-
-   
-
+    
+    
+    
 }

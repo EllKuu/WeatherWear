@@ -200,6 +200,7 @@ extension WeatherViewController: UITableViewDataSource{
         let cellDescription = weatherDayOfTheWeek[indexPath.row].weather[0].description
         
         vc.setupHeader(location: headerLocation, temp: cellTemp, date: cellDate, image: cellIcon, description: cellDescription)
+        vc.temperature = Int(weatherDayOfTheWeek[indexPath.row].temp.day.rounded())
         self.navigationController?.pushViewController(vc, animated: true)
         
     }

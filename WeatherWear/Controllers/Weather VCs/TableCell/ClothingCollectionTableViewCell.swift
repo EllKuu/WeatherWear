@@ -44,6 +44,7 @@ class ClothingCollectionTableViewCell: UITableViewCell, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClothingItemCollectionViewCell.identifier, for: indexPath) as! ClothingItemCollectionViewCell
+        
         cell.configure(with: clothingItemsSuggestions[indexPath.row])
         return cell
     }

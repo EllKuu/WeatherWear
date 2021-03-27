@@ -12,4 +12,7 @@ import CoreData
 @objc(ClothingItem)
 public class ClothingItem: NSManagedObject {
 
+    
+    
+
 }

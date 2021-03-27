@@ -95,7 +95,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     imageCell.configure(with: "", image: UIImage(data: previousItem.clothingImage!)!)
                     
                     self!.selectedImage = UIImage(data: previousItem.clothingImage!)
-                    imageCell.imageView?.image = self!.selectedImage
                     
                     for btn in categoryCell.categoryButtons{
                         if previousItem.clothingCategory?.capitalized == btn.titleLabel?.text?.capitalized{
@@ -106,7 +105,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     for seasonBtn in seasonCell.seasonButtons{
                         //print("HELLO \(seasonBtn.titleLabel?.text)")
                         previousItem.clothingSeason?.forEach({ season in
-                            print("HELLO \(season)")
                             if seasonBtn.titleLabel?.text == season{
                                 seasonBtn.isChecked = true
                             }
@@ -200,9 +198,14 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
-            
+        
             let imageCell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.identifier, for: indexPath) as! ImageTableViewCell
-            imageCell.configure(with: "Pick a Picture", image: UIImage(systemName: "camera.circle")!)
+            if selectedImage != nil{
+                imageCell.configure(with: "", image: selectedImage!)
+            }else{
+                imageCell.configure(with: "Pick a Picture", image: UIImage(systemName: "camera.circle")!)
+            }
+           
             
             return imageCell
             
@@ -344,7 +347,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
         switch sender.tag{
         case 1:
             if !summer.isChecked{
-                //print(sender.titleLabel?.text)
                 seasons.append("Summer")
             }else{
                 print("false")
@@ -354,7 +356,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
             }
         case 2:
             if !spring.isChecked{
-                //print(sender.titleLabel?.text)
                 seasons.append("Spring")
                 
             }else{
@@ -365,7 +366,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
             }
         case 3:
             if !fall.isChecked{
-                //print(sender.titleLabel?.text)
                 seasons.append("Fall")
             }else{
                 print("false")
@@ -375,7 +375,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
             }
         case 4:
             if !winter.isChecked{
-                //print(sender.titleLabel?.text)
                 seasons.append("Winter")
             }else{
                 print("false")
@@ -388,7 +387,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
         }
         
         clothing_season = seasons
-        //print(seasons)
     } // end of didTapButton
 
 }
