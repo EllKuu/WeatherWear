@@ -11,45 +11,40 @@ class ClothingSuggestionsTableViewController: UITableViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var clothingSuggestions:[ClothingItem] = []
-    var temperature: Int?
+    var temperature: Int = 0
     var season = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // register
         tableView.register(ClothingCollectionTableViewCell.nib(), forCellReuseIdentifier: ClothingCollectionTableViewCell.identifier)
-        
         fetchItems()
-        guard let temperature = temperature else {
-            return
-        }
-        sortItemsBySeason(temperature: temperature)
-        
-       
-        
     }
     
     
     func fetchItems(){
         do {
             clothingSuggestions = try context.fetch(ClothingItem.fetchRequest())
+           
         }catch{
             fatalError("Could not fetch items")
         }
     }
     
     /// takes in a temperature and returns the season
-    func sortItemsBySeason(temperature: Int){
+    func sortItemsBySeason(temperature: Int) -> String{
         
         if temperature >= 20{
-            season = "Summer"
+           return "Summer"
         }else if temperature >= 8 && temperature <= 19{
-            season = "Fall"
+            return "Fall"
         }else if temperature >= 1 && temperature <= 8{
-            season = "Spring"
+            return "Spring"
         }else if temperature < 0{
-            season = "Winter"
+            return "Winter"
+        }else{
+            return "Season"
         }
 
     }
@@ -83,9 +78,9 @@ class ClothingSuggestionsTableViewController: UITableViewController {
         
         switch indexPath.section{
         case 0:
+            
             cell.configure(with: clothingSuggestions.filter({
                 ($0.clothingSeason?.contains(season))! && $0.clothingCategory?.capitalized == "Top"
-               
             }))
             return cell
         case 1:
@@ -112,6 +107,7 @@ class ClothingSuggestionsTableViewController: UITableViewController {
             cell.configure(with: clothingSuggestions)
             return cell
         }
+       
     } // end of cellForRowAt
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
