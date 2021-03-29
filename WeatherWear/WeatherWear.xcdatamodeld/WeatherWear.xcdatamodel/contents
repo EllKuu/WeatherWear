@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ClothingItem" representedClassName="ClothingItem" syncable="YES">
         <attribute name="clothingBrand" optional="YES" attributeType="String"/>
         <attribute name="clothingCategory" optional="YES" attributeType="String"/>
         <attribute name="clothingColor" optional="YES" attributeType="String"/>
         <attribute name="clothingId" optional="YES" attributeType="String"/>
         <attribute name="clothingImage" optional="YES" attributeType="Binary"/>
-        <attribute name="clothingSeason" optional="YES" attributeType="String"/>
+        <attribute name="clothingSeason" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[String]"/>
         <attribute name="clothingSubCategory" optional="YES" attributeType="String"/>
     </entity>
     <elements>
