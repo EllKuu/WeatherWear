@@ -30,7 +30,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     var imageCell: ImageTableViewCell?
     
-    var hasSetImage = false
+    var hasSetImage: Bool = false
     
     var selectedImage: UIImage?{
         didSet{
@@ -103,7 +103,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     }
                     
                     for seasonBtn in seasonCell.seasonButtons{
-                        //print("HELLO \(seasonBtn.titleLabel?.text)")
                         previousItem.clothingSeason?.forEach({ season in
                             if seasonBtn.titleLabel?.text == season{
                                 seasonBtn.isChecked = true
@@ -131,7 +130,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     }
     
     @objc func cancelSave(){
-        //dismiss(animated: true, completion: nil)
         navigationController?.popViewController(animated: true)
     }
     
@@ -161,7 +159,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         }
        
         // check for empty fields
-        if hasSetImage && clothingItem?.clothingCategory != nil && clothingItem?.clothingSubCategory != nil && clothingItem?.clothingBrand != nil && clothingItem?.clothingColor != nil && clothingItem?.clothingSeason != nil{
+       if hasSetImage && clothingItem?.clothingCategory != nil && clothingItem?.clothingSubCategory != nil && clothingItem?.clothingBrand != nil && clothingItem?.clothingColor != nil && clothingItem?.clothingSeason != nil {
            
             print(clothingItem as Any)
             do {
@@ -174,7 +172,8 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             }
             
            
-        }else{
+        }
+       else{
             let alert = UIAlertController(title: "Fill in all fields", message: "", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
@@ -183,6 +182,12 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         
         
     } //end of save item
+    
+    func userHasSetImage(){
+        if selectedImage != nil{
+            hasSetImage = true
+        }
+    }
     
     
     // MARK: TableView Functions
@@ -202,6 +207,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             let imageCell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.identifier, for: indexPath) as! ImageTableViewCell
             if selectedImage != nil{
                 imageCell.configure(with: "", image: selectedImage!)
+                hasSetImage = true
             }else{
                 imageCell.configure(with: "Pick a Picture", image: UIImage(systemName: "camera.circle")!)
             }
@@ -213,12 +219,14 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         else if indexPath.row == 1{
             let categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
             categoryCell.delegate = self
+            userHasSetImage()
             
             return categoryCell
         }
         else if indexPath.row == 5{
             let seasonCell = tableView.dequeueReusableCell(withIdentifier: SeasonTableViewCell.identifier, for: indexPath) as! SeasonTableViewCell
             seasonCell.delegate = self
+            userHasSetImage()
             
             return seasonCell
         }
@@ -233,6 +241,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     print(text)
                     clothing_subcategory = text
                 }
+                userHasSetImage()
                 return cell
             case 3:
                 cell.configure(with: categories[3], placeHolder: categories[3])
@@ -240,6 +249,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     print(text)
                     clothing_brand = text
                 }
+                userHasSetImage()
                 return cell
             case 4:
                 cell.configure(with: categories[4], placeHolder: categories[4])
@@ -247,6 +257,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     print(text)
                   clothing_color = text
                 }
+                userHasSetImage()
                 return cell
             default:
                 fatalError()
@@ -320,6 +331,7 @@ extension AddItemTableViewController: UIImagePickerControllerDelegate{
         guard let image = info[.editedImage] as? UIImage else { return }
         dismiss(animated: true)
         selectedImage = image
+        hasSetImage = true
         
     }
     
