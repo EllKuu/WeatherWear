@@ -52,7 +52,7 @@ class ClothingSuggestionsTableViewController: UITableViewController {
     func setupHeader(location: String, temp: String, date: String, image: UIImage, description: String){
         let headerNib = (Bundle.main.loadNibNamed(HeaderTableViewCell.identifier, owner: self, options: nil)![0] as? HeaderTableViewCell)
         
-        headerNib?.configure(location: location, temp: temp, image: image, date: date, description: description)
+        headerNib?.configure(location: location, temp: temp, image: image, date: date, description: description.capitalized)
         
         self.tableView.tableHeaderView = headerNib
     }

@@ -172,6 +172,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             ac.addAction(UIAlertAction(title: "Get 7 Day Forecast", style: .default, handler: { [weak self] _ in
                 
                 self?.callBackCoordinates?(locationMarker.coordinate.latitude, locationMarker.coordinate.longitude)
+                
+                let chosenLocation = ["latitude":locationMarker.coordinate.latitude, "longitude": locationMarker.coordinate.longitude]
+                self?.defaults.setValue(chosenLocation, forKey: "chosenLocation")
 
                 self?.navigationController?.popToRootViewController(animated: true)
             }))

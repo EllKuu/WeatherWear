@@ -14,6 +14,7 @@ class WeatherViewController: UIViewController {
     var weatherResult = WeatherModel()
     var weatherDayOfTheWeek = [WeatherModel.Daily]()
     var headerLocation = ""
+    let defaults = UserDefaults.standard
     
     lazy var worldMapBtn: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(self.openMap))
@@ -26,17 +27,38 @@ class WeatherViewController: UIViewController {
         self.navigationItem.title = "Weather"
         weatherTable.delegate = self
         weatherTable.dataSource = self
+        weatherTable.layoutMargins = UIEdgeInsets.zero
+        weatherTable.separatorInset = UIEdgeInsets.zero
         
-       
+        let chosenLocation = defaults.object(forKey: "chosenLocation") as? [String: CLLocationDegrees] ?? [String: CLLocationDegrees]()
+        setupHeaderIfPreviousLocationSaved(chosenLocation: chosenLocation)
         
         // navigation bar
         navigationController?.navigationBar.prefersLargeTitles = true
         setupBarButtons()
         
-        // Header Section
-        setupHeader(location: "No", temp: "30", date: "No", image: UIImage(systemName: "house")!, description: "Test")
+        
         
         weatherTable.register(UINib(nibName: WeatherDayTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: WeatherDayTableViewCell.identifier)
+    }
+    
+    func setupHeaderIfPreviousLocationSaved(chosenLocation:[String: CLLocationDegrees]){
+        let defaultHeaderNib = (Bundle.main.loadNibNamed(DefaultHeaderTableViewCell.identifier, owner: self, options: nil)![0] as? DefaultHeaderTableViewCell)
+        
+        if !chosenLocation.isEmpty{
+            if let lat = chosenLocation["latitude"], let long = chosenLocation["longitude"]{
+                
+                self.weatherResult.getWeatherData(latitude: lat, longitude: long, completion: {(weatherObj) in
+                    self.weatherDataSetup(weatherData: weatherObj)
+                    self.weatherTable.reloadData()
+                })
+            }
+            
+        }else{
+            //setupHeader(location: "No", temp: "30", date: "No", image: UIImage(systemName: "house")!, description: "Test")
+            weatherTable.tableHeaderView = defaultHeaderNib
+            print("no location saved")
+        }
     }
     
     func setupBarButtons(){
@@ -76,7 +98,7 @@ class WeatherViewController: UIViewController {
         let headerTemp = String("\(Int(weatherData.current.temp.rounded())) C")
         let headerIcon = setIcon(iconID: weatherData.current.weather[0].icon)
         let headerDate = getDate(weatherInt: weatherData.current.dt)
-        let headerDescription = weatherData.current.weather[0].description
+        let headerDescription = weatherData.current.weather[0].description.capitalized
         setupHeader(location: headerLocation, temp: headerTemp, date: headerDate, image: headerIcon, description: headerDescription)
         
         for i in weatherData.daily{
@@ -84,8 +106,7 @@ class WeatherViewController: UIViewController {
         }
         
         print(weatherDayOfTheWeek.count)
-        
-        
+
     }
     
     func getDate(weatherInt: Int) -> String{
@@ -93,7 +114,7 @@ class WeatherViewController: UIViewController {
         let myNSDate = Date(timeIntervalSince1970: timeInterval)
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateFormatter.dateFormat = "EEEE - MMMM/dd/yyyy"
         
         return dateFormatter.string(from: myNSDate)
 
@@ -148,15 +169,11 @@ extension WeatherViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        tableView.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 0)
         return "7 Day Outlook"
     }
     
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        <#code#>
-//    }
-    
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -175,7 +192,7 @@ extension WeatherViewController: UITableViewDataSource{
             let cellDate = getDate(weatherInt: weatherDayOfTheWeek[num].dt)
             let cellTemp = String("\(Int(weatherDayOfTheWeek[num].temp.day.rounded())) C")
             let cellIcon = setIcon(iconID: weatherDayOfTheWeek[num].weather[0].icon)
-            let cellDescription = weatherDayOfTheWeek[num].weather[0].description
+            let cellDescription = weatherDayOfTheWeek[num].weather[0].description.capitalized
             
             cell.configure(temp: cellTemp, image: cellIcon, date: cellDate, description: cellDescription)
             
