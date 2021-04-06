@@ -58,10 +58,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let location = gesture.location(in: mapView)
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         let saveLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+       
+        var title = ""
+        var info = ""
+        lookUpCurrentLocation(location: saveLocation, completionHandler: {
+            (placemark) in
+            
+            title = placemark?.name ?? "title"
+            info = placemark?.locality ?? "locality"
+            let annotation = LocationMarker(title: title, coordinate: coordinate, info: info)
+            self.mapView.addAnnotation(annotation)
+        })
         
         // Add annotation:
-        let annotation = LocationMarker(title: "Place", coordinate: coordinate, info: "\(coordinate)")
-        mapView.addAnnotation(annotation)
+       
         
         
         if gesture.state == .ended{
@@ -70,6 +80,24 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         
     }
+    
+    func lookUpCurrentLocation(location: CLLocation,completionHandler: @escaping (CLPlacemark?)
+                    -> Void ) {
+            let geocoder = CLGeocoder()
+                
+            // Look up the location and pass it to the completion handler
+            geocoder.reverseGeocodeLocation(location,
+                        completionHandler: { (placemarks, error) in
+                if error == nil {
+                    let firstLocation = placemarks?[0]
+                    completionHandler(firstLocation)
+                }
+                else {
+                 // An error occurred during geocoding.
+                    completionHandler(nil)
+                }
+            })
+        }
     
     func saveLocationsToUserDefaults(location: CLLocation){
         let latitude:Double = location.coordinate.latitude
@@ -90,10 +118,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 let lat = i["Latitude"]!
                 let long = i["Longitude"]!
                 let saveLocation = CLLocation(latitude: lat, longitude: long)
+                
+                var title = ""
+                var info = ""
+                lookUpCurrentLocation(location: saveLocation, completionHandler: {
+                    (placemark) in
+                    
+                    title = placemark?.name ?? "title"
+                    info = placemark?.locality ?? "locality"
+                    let annotation = LocationMarker(title: title, coordinate: saveLocation.coordinate, info: info)
+                    self.mapView.addAnnotation(annotation)
+                })
 
                 // Add annotation:
-                let annotation = LocationMarker(title: "Place", coordinate: saveLocation.coordinate, info: "\(saveLocation.coordinate)")
-                mapView.addAnnotation(annotation)
+               
             }
 
         }

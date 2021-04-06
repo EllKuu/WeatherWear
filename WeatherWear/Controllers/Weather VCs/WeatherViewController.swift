@@ -49,13 +49,13 @@ class WeatherViewController: UIViewController {
             if let lat = chosenLocation["latitude"], let long = chosenLocation["longitude"]{
                 
                 self.weatherResult.getWeatherData(latitude: lat, longitude: long, completion: {(weatherObj) in
-                    self.weatherDataSetup(weatherData: weatherObj)
+                    self.weatherDataSetup(weatherData: weatherObj, location: CLLocation(latitude: lat, longitude: long))
                     self.weatherTable.reloadData()
+                    
                 })
             }
             
         }else{
-            //setupHeader(location: "No", temp: "30", date: "No", image: UIImage(systemName: "house")!, description: "Test")
             weatherTable.tableHeaderView = defaultHeaderNib
             print("no location saved")
         }
@@ -79,7 +79,7 @@ class WeatherViewController: UIViewController {
         mapVC.callBackCoordinates = { (latitude: Double, longitude: Double) in
             self.weatherResult.getWeatherData(latitude: latitude, longitude: longitude){
                 (weatherObj) in
-                self.weatherDataSetup(weatherData: weatherObj)
+                self.weatherDataSetup(weatherData: weatherObj, location: CLLocation(latitude: latitude, longitude: longitude))
                 self.weatherTable.reloadData()
             }
         }
@@ -87,22 +87,36 @@ class WeatherViewController: UIViewController {
         navigationController?.pushViewController(mapVC, animated: true)
     }
     
-    func weatherDataSetup(weatherData: WeatherModel.WeatherData){
+    func weatherDataSetup(weatherData: WeatherModel.WeatherData, location: CLLocation){
         
         if !weatherDayOfTheWeek.isEmpty{
             weatherDayOfTheWeek.removeAll()
         }
         
         // setup header data
-        headerLocation = weatherData.timezone
-        let headerTemp = String("\(Int(weatherData.current.temp.rounded())) C")
-        let headerIcon = setIcon(iconID: weatherData.current.weather[0].icon)
-        let headerDate = getDate(weatherInt: weatherData.current.dt)
-        let headerDescription = weatherData.current.weather[0].description.capitalized
-        setupHeader(location: headerLocation, temp: headerTemp, date: headerDate, image: headerIcon, description: headerDescription)
-        
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+            if error == nil {
+                let firstLocation = placemarks?[0]
+                self.headerLocation = firstLocation?.name ?? "N/A"
+            }
+            else {
+             // An error occurred during geocoding.
+                self.headerLocation = "N/A"
+            }
+            
+            let headerTemp = String("\(Int(weatherData.current.temp.rounded())) C")
+            let headerIcon = self.setIcon(iconID: weatherData.current.weather[0].icon)
+            let headerDate = self.getDate(weatherInt: weatherData.current.dt)
+            let headerDescription = weatherData.current.weather[0].description.capitalized
+            self.setupHeader(location: self.headerLocation, temp: headerTemp, date: headerDate, image: headerIcon, description: headerDescription)
+            
+           
+            
+        })
+       
         for i in weatherData.daily{
-            weatherDayOfTheWeek.append(i)
+            self.weatherDayOfTheWeek.append(i)
         }
         
         print(weatherDayOfTheWeek.count)
