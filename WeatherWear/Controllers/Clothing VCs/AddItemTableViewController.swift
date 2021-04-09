@@ -326,6 +326,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
 
 extension AddItemTableViewController: UIImagePickerControllerDelegate{
     
+    /// takes the chosen image by the user and assigns it to local UIImage variable
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let image = info[.editedImage] as? UIImage else { return }
@@ -341,6 +342,7 @@ extension AddItemTableViewController: UIImagePickerControllerDelegate{
 
 extension AddItemTableViewController: CategoryTableViewCellDelegate{
     
+    /// this function ensures only 1 category button is selected and assigns the chosen buttons title to the items clothing category
     func didTapCategoryButton(sender: UIButton, categoryBtns: [RadioButton]) {
         for button in categoryBtns{
             if button.tag != sender.tag {
@@ -354,6 +356,8 @@ extension AddItemTableViewController: CategoryTableViewCellDelegate{
 
 
 extension AddItemTableViewController: SeasonTableViewCellDelegate{
+    
+    /// this function checks which radio button has been selected and ensures no duplicate seasons are added in the "seasons" array
     func didTapButton(sender: UIButton, summer: RadioButton, spring: RadioButton, fall: RadioButton, winter: RadioButton) {
        
         switch sender.tag{

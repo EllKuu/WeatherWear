@@ -12,7 +12,7 @@ class ClothingSuggestionsTableViewController: UITableViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var clothingSuggestions:[ClothingItem] = []
     var temperature: Int = 0
-    var season = ""
+    var season: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,8 @@ class ClothingSuggestionsTableViewController: UITableViewController {
         // register
         tableView.register(ClothingCollectionTableViewCell.nib(), forCellReuseIdentifier: ClothingCollectionTableViewCell.identifier)
         fetchItems()
+        print("\(temperature) - Temp")
+        print("\(season) - Season")
     }
     
     
@@ -60,12 +62,10 @@ class ClothingSuggestionsTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 5
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return 1
     }
     

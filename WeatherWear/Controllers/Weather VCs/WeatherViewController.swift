@@ -233,6 +233,8 @@ extension WeatherViewController: UITableViewDataSource{
         vc.setupHeader(location: headerLocation, temp: cellTemp, date: cellDate, image: cellIcon, description: cellDescription)
         vc.temperature = Int(weatherDayOfTheWeek[indexPath.row].temp.day.rounded())
         vc.season = vc.sortItemsBySeason(temperature: vc.temperature)
+        print("\(vc.temperature) - VC temp")
+        print("\(vc.season) - VC Season")
         self.navigationController?.pushViewController(vc, animated: true)
         
     }
