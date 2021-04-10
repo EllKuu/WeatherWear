@@ -365,7 +365,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
             if !summer.isChecked{
                 seasons.append("Summer")
             }else{
-                print("false")
                 while let idx = seasons.firstIndex(of: "Summer"){
                     seasons.remove(at: idx)
                 }
@@ -375,7 +374,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
                 seasons.append("Spring")
                 
             }else{
-                print("false")
                 while let idx = seasons.firstIndex(of: "Spring"){
                     seasons.remove(at: idx)
                 }
@@ -384,7 +382,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
             if !fall.isChecked{
                 seasons.append("Fall")
             }else{
-                print("false")
                 while let idx = seasons.firstIndex(of: "Fall"){
                     seasons.remove(at: idx)
                 }
@@ -393,7 +390,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
             if !winter.isChecked{
                 seasons.append("Winter")
             }else{
-                print("false")
                 while let idx = seasons.firstIndex(of: "Winter"){
                     seasons.remove(at: idx)
                 }
