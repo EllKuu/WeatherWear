@@ -66,7 +66,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         navigationItem.rightBarButtonItem = saveButton
         navigationItem.leftBarButtonItem = cancelButton
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.register(AddDetailsTableViewCell.nib(), forCellReuseIdentifier: AddDetailsTableViewCell.identifier)
         tableView.register(ImageTableViewCell.nib(), forCellReuseIdentifier: ImageTableViewCell.identifier)
         tableView.register(CategoryTableViewCell.nib(), forCellReuseIdentifier: CategoryTableViewCell.identifier)
@@ -217,8 +216,9 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             
         }
         else if indexPath.row == 1{
-            let categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
+            var categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
             categoryCell.delegate = self
+            
             userHasSetImage()
             
             return categoryCell
@@ -278,7 +278,9 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         if indexPath.row == 0 {
             return 250
         }
-        else if indexPath.row == 1 || indexPath.row == 5{
+        else if indexPath.row == 1 {
+            return 275
+        }else if indexPath.row == 5{
             return 250
         }
         return 100
