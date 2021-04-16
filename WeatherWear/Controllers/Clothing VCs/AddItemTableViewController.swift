@@ -216,7 +216,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             
         }
         else if indexPath.row == 1{
-            var categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
+            let categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
             categoryCell.delegate = self
             
             userHasSetImage()
@@ -238,7 +238,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             case 2:
                 cell.configure(with: categories[2], placeHolder: categories[2])
                 cell.textViewTextChangeCallback = { [unowned self] text in
-                    print(text)
                     clothing_subcategory = text
                 }
                 userHasSetImage()
@@ -246,7 +245,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             case 3:
                 cell.configure(with: categories[3], placeHolder: categories[3])
                 cell.textViewTextChangeCallback = { [unowned self] text in
-                    print(text)
                     clothing_brand = text
                 }
                 userHasSetImage()
@@ -254,7 +252,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             case 4:
                 cell.configure(with: categories[4], placeHolder: categories[4])
                 cell.textViewTextChangeCallback = { [unowned self] text in
-                    print(text)
                   clothing_color = text
                 }
                 userHasSetImage()
@@ -280,7 +277,8 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         }
         else if indexPath.row == 1 {
             return 275
-        }else if indexPath.row == 5{
+        }
+        else if indexPath.row == 5{
             return 250
         }
         return 100
@@ -290,8 +288,8 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     @objc func imgTap(){
         let ac = UIAlertController(title: "Image Options", message: "", preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in self.openCamera()}))
-        ac.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { _ in self.openGallery()}))
+        ac.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self]  _  in self?.openCamera()}))
+        ac.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in self?.openGallery()}))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(ac, animated: true)
     }

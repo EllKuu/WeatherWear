@@ -48,9 +48,9 @@ class WeatherViewController: UIViewController {
         if !chosenLocation.isEmpty{
             if let lat = chosenLocation["latitude"], let long = chosenLocation["longitude"]{
                 
-                self.weatherResult.getWeatherData(latitude: lat, longitude: long, completion: {(weatherObj) in
-                    self.weatherDataSetup(weatherData: weatherObj, location: CLLocation(latitude: lat, longitude: long))
-                    self.weatherTable.reloadData()
+                self.weatherResult.getWeatherData(latitude: lat, longitude: long, completion: { [weak self] (weatherObj) in
+                    self?.weatherDataSetup(weatherData: weatherObj, location: CLLocation(latitude: lat, longitude: long))
+                    self?.weatherTable.reloadData()
                     
                 })
             }
@@ -76,11 +76,11 @@ class WeatherViewController: UIViewController {
     @objc func openMap(){
         let mapVC = storyboard?.instantiateViewController(identifier: "map") as! MapViewController
         
-        mapVC.callBackCoordinates = { (latitude: Double, longitude: Double) in
-            self.weatherResult.getWeatherData(latitude: latitude, longitude: longitude){
+        mapVC.callBackCoordinates = { [weak self] (latitude: Double, longitude: Double) in
+            self?.weatherResult.getWeatherData(latitude: latitude, longitude: longitude){
                 (weatherObj) in
-                self.weatherDataSetup(weatherData: weatherObj, location: CLLocation(latitude: latitude, longitude: longitude))
-                self.weatherTable.reloadData()
+                self?.weatherDataSetup(weatherData: weatherObj, location: CLLocation(latitude: latitude, longitude: longitude))
+                self?.weatherTable.reloadData()
             }
         }
         
@@ -233,8 +233,6 @@ extension WeatherViewController: UITableViewDataSource{
         vc.setupHeader(location: headerLocation, temp: cellTemp, date: cellDate, image: cellIcon, description: cellDescription)
         vc.temperature = Int(weatherDayOfTheWeek[indexPath.row].temp.day.rounded())
         vc.season = vc.sortItemsBySeason(temperature: vc.temperature)
-        print("\(vc.temperature) - VC temp")
-        print("\(vc.season) - VC Season")
         self.navigationController?.pushViewController(vc, animated: true)
         
     }
