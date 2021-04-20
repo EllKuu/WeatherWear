@@ -23,7 +23,7 @@ class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .tertiarySystemGroupedBackground
         self.navigationItem.title = "Weather"
         weatherTable.delegate = self
         weatherTable.dataSource = self
@@ -185,6 +185,30 @@ extension WeatherViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         tableView.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 0)
         return "7 Day Outlook"
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let returnedView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
+        let gradient: CAGradientLayer = CAGradientLayer()
+
+        gradient.colors = [UIColor.blue.withAlphaComponent(0.8).cgColor, UIColor.red.withAlphaComponent(0.8).cgColor]
+        gradient.locations = [0.0 , 1.0]
+        gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
+        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+        gradient.frame = returnedView.frame
+
+        
+        returnedView.layer.insertSublayer(gradient, at: 0)
+    
+        
+
+        let label = UILabel(frame: CGRect(x: 10, y: 7, width: view.frame.size.width, height: 25))
+        label.text = "7 Day Outlook"
+        label.font = UIFont.boldSystemFont(ofSize: 30)
+        //label.font = UIFont(name: "System", size: 25)
+        returnedView.addSubview(label)
+
+        return returnedView
     }
     
 

@@ -27,8 +27,6 @@ class ClothingSuggestionsTableViewController: UITableViewController {
         // register
         tableView.register(ClothingCollectionTableViewCell.nib(), forCellReuseIdentifier: ClothingCollectionTableViewCell.identifier)
         fetchItems()
-        print("\(temperature) - Temp")
-        print("\(season) - Season")
     }
     
     
