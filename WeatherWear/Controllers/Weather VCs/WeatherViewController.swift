@@ -128,7 +128,7 @@ class WeatherViewController: UIViewController {
         let myNSDate = Date(timeIntervalSince1970: timeInterval)
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE - MMMM/dd/yyyy"
+        dateFormatter.dateFormat = "EEEE MMMM, dd, yyyy"
         
         return dateFormatter.string(from: myNSDate)
         
