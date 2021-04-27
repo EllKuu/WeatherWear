@@ -102,7 +102,6 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         // Navigation bar
         navigationController?.navigationBar.prefersLargeTitles = true
-        
         setupBarButtonItems()
         
     }
@@ -155,12 +154,6 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         vc.modalPresentationStyle = .fullScreen
         vc.titleVC = "Add Item"
         navigationController?.pushViewController(vc, animated: true)
-        
-//        let addItemVC = UINavigationController(rootViewController: AddItemTableViewController())
-//        addItemVC.modalPresentationStyle = .fullScreen
-//        addItemVC.title = "Add Item"
-//        present(addItemVC, animated: true)
-        // presenting vs push there is a difference 
         
     }
     
@@ -245,8 +238,6 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
           }
         
         
-
-        
         if let image = clothing.clothingImage {
             let dataImage = UIImage(data: image)
             cell.configure(image: dataImage!)
@@ -293,11 +284,12 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         
         filteredClothingItems = clothingItemIndexes.filter ({
             return
-                    $0.clothing.clothingCategory == compareText ||
+            $0.clothing.clothingCategory == compareText.capitalized ||
                     $0.clothing.clothingSubCategory == compareText ||
                     $0.clothing.clothingBrand == compareText ||
                     $0.clothing.clothingColor == compareText
-                        //|| $0.clothing.clothingSeason == compareText
+                || ($0.clothing.clothingSeason!.contains(compareText.capitalized))
+            
         })
         DispatchQueue.main.async {
             self.collectionView?.reloadData()

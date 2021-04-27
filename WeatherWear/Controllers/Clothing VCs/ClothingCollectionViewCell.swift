@@ -20,18 +20,18 @@ class ClothingCollectionViewCell: UICollectionViewCell {
     }()
     
     private let highlightView: UIView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "checkmark.circle.fill")
-        imageView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-        
-        imageView.tintColor = .white
-        
         let highlight = UIView()
         highlight.alpha = 0.5
         highlight.backgroundColor = .black
         highlight.isHidden = true
-        highlight.addSubview(imageView)
         
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "checkmark.circle.fill")
+        imageView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+        imageView.tintColor = .white
+    
+        
+        highlight.addSubview(imageView)
         return highlight
     }()
     

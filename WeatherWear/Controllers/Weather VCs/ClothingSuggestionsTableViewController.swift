@@ -12,11 +12,18 @@ class ClothingSuggestionsTableViewController: UITableViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var clothingSuggestions:[ClothingItem] = []
     var temperature: Int = 0
-    var season = ""
+    var season: String = ""
+    
+    var hasTop: Bool?
+    var hasBottom: Bool?
+    var hasOuterwear: Bool?
+    var hasShoes: Bool?
+    var hasOther: Bool?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // register
         tableView.register(ClothingCollectionTableViewCell.nib(), forCellReuseIdentifier: ClothingCollectionTableViewCell.identifier)
         fetchItems()
@@ -26,7 +33,7 @@ class ClothingSuggestionsTableViewController: UITableViewController {
     func fetchItems(){
         do {
             clothingSuggestions = try context.fetch(ClothingItem.fetchRequest())
-           
+            
         }catch{
             fatalError("Could not fetch items")
         }
@@ -36,7 +43,7 @@ class ClothingSuggestionsTableViewController: UITableViewController {
     func sortItemsBySeason(temperature: Int) -> String{
         
         if temperature >= 20{
-           return "Summer"
+            return "Summer"
         }else if temperature >= 8 && temperature <= 19{
             return "Fall"
         }else if temperature >= 1 && temperature <= 8{
@@ -46,7 +53,7 @@ class ClothingSuggestionsTableViewController: UITableViewController {
         }else{
             return "Season"
         }
-
+        
     }
     
     func setupHeader(location: String, temp: String, date: String, image: UIImage, description: String){
@@ -60,12 +67,10 @@ class ClothingSuggestionsTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 5
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return 1
     }
     
@@ -74,8 +79,6 @@ class ClothingSuggestionsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ClothingCollectionTableViewCell.identifier, for: indexPath) as! ClothingCollectionTableViewCell
         
-       
-        
         switch indexPath.section{
         case 0:
             
@@ -83,7 +86,10 @@ class ClothingSuggestionsTableViewController: UITableViewController {
                 ($0.clothingSeason?.contains(season))! && $0.clothingCategory?.capitalized == "Top"
             }))
             return cell
+            
         case 1:
+            
+            hasBottom = true
             cell.configure(with: clothingSuggestions.filter({
                 ($0.clothingSeason?.contains(season))! && $0.clothingCategory?.capitalized == "Bottom"
             }))
@@ -107,10 +113,11 @@ class ClothingSuggestionsTableViewController: UITableViewController {
             cell.configure(with: clothingSuggestions)
             return cell
         }
-       
+        
     } // end of cellForRowAt
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
         return 250
     }
     

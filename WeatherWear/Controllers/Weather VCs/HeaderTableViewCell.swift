@@ -31,7 +31,7 @@ class HeaderTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .orange
+        backgroundColor = .systemBackground
         
     }
 

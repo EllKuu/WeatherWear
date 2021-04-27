@@ -66,7 +66,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         navigationItem.rightBarButtonItem = saveButton
         navigationItem.leftBarButtonItem = cancelButton
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.register(AddDetailsTableViewCell.nib(), forCellReuseIdentifier: AddDetailsTableViewCell.identifier)
         tableView.register(ImageTableViewCell.nib(), forCellReuseIdentifier: ImageTableViewCell.identifier)
         tableView.register(CategoryTableViewCell.nib(), forCellReuseIdentifier: CategoryTableViewCell.identifier)
@@ -219,6 +218,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         else if indexPath.row == 1{
             let categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
             categoryCell.delegate = self
+            
             userHasSetImage()
             
             return categoryCell
@@ -238,7 +238,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             case 2:
                 cell.configure(with: categories[2], placeHolder: categories[2])
                 cell.textViewTextChangeCallback = { [unowned self] text in
-                    print(text)
                     clothing_subcategory = text
                 }
                 userHasSetImage()
@@ -246,7 +245,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             case 3:
                 cell.configure(with: categories[3], placeHolder: categories[3])
                 cell.textViewTextChangeCallback = { [unowned self] text in
-                    print(text)
                     clothing_brand = text
                 }
                 userHasSetImage()
@@ -254,7 +252,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             case 4:
                 cell.configure(with: categories[4], placeHolder: categories[4])
                 cell.textViewTextChangeCallback = { [unowned self] text in
-                    print(text)
                   clothing_color = text
                 }
                 userHasSetImage()
@@ -278,7 +275,10 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         if indexPath.row == 0 {
             return 250
         }
-        else if indexPath.row == 1 || indexPath.row == 5{
+        else if indexPath.row == 1 {
+            return 275
+        }
+        else if indexPath.row == 5{
             return 250
         }
         return 100
@@ -288,8 +288,8 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     @objc func imgTap(){
         let ac = UIAlertController(title: "Image Options", message: "", preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in self.openCamera()}))
-        ac.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { _ in self.openGallery()}))
+        ac.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self]  _  in self?.openCamera()}))
+        ac.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { [weak self] _ in self?.openGallery()}))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(ac, animated: true)
     }
@@ -326,6 +326,7 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
 
 extension AddItemTableViewController: UIImagePickerControllerDelegate{
     
+    /// takes the chosen image by the user and assigns it to local UIImage variable
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let image = info[.editedImage] as? UIImage else { return }
@@ -341,6 +342,7 @@ extension AddItemTableViewController: UIImagePickerControllerDelegate{
 
 extension AddItemTableViewController: CategoryTableViewCellDelegate{
     
+    /// this function ensures only 1 category button is selected and assigns the chosen buttons title to the items clothing category
     func didTapCategoryButton(sender: UIButton, categoryBtns: [RadioButton]) {
         for button in categoryBtns{
             if button.tag != sender.tag {
@@ -354,6 +356,8 @@ extension AddItemTableViewController: CategoryTableViewCellDelegate{
 
 
 extension AddItemTableViewController: SeasonTableViewCellDelegate{
+    
+    /// this function checks which radio button has been selected and ensures no duplicate seasons are added in the "seasons" array
     func didTapButton(sender: UIButton, summer: RadioButton, spring: RadioButton, fall: RadioButton, winter: RadioButton) {
        
         switch sender.tag{
@@ -361,7 +365,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
             if !summer.isChecked{
                 seasons.append("Summer")
             }else{
-                print("false")
                 while let idx = seasons.firstIndex(of: "Summer"){
                     seasons.remove(at: idx)
                 }
@@ -371,7 +374,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
                 seasons.append("Spring")
                 
             }else{
-                print("false")
                 while let idx = seasons.firstIndex(of: "Spring"){
                     seasons.remove(at: idx)
                 }
@@ -380,7 +382,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
             if !fall.isChecked{
                 seasons.append("Fall")
             }else{
-                print("false")
                 while let idx = seasons.firstIndex(of: "Fall"){
                     seasons.remove(at: idx)
                 }
@@ -389,7 +390,6 @@ extension AddItemTableViewController: SeasonTableViewCellDelegate{
             if !winter.isChecked{
                 seasons.append("Winter")
             }else{
-                print("false")
                 while let idx = seasons.firstIndex(of: "Winter"){
                     seasons.remove(at: idx)
                 }

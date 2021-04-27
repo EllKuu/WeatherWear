@@ -114,7 +114,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }else{
            
             for i in savedLocations{
-                print(i)
                 let lat = i["Latitude"]!
                 let long = i["Longitude"]!
                 let saveLocation = CLLocation(latitude: lat, longitude: long)
@@ -158,8 +157,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let region = MKCoordinateRegion(center: coordinate, span: span)
         mapView.setRegion(region, animated: true)
         
-        let pin = LocationMarker(title: "Toronto", coordinate: CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), info: "Home to the Blue Jays")
-        mapView.addAnnotation(pin)
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemark, error) in
+            if error == nil {
+                let pin = LocationMarker(title: placemark?[0].name ?? "N/A", coordinate: coordinate, info: placemark?[0].locality ?? "N/A")
+                self?.mapView.addAnnotation(pin)
+            }else{
+                print("error in geocoder")
+            }
+        }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -189,7 +195,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         guard let locationMarker = view.annotation as? LocationMarker else { return }
         
         if control == view.leftCalloutAccessoryView{
-            print(mapView.annotations.count, " THIS IS COUNT")
             for i in mapView.annotations{
                 if i.coordinate.latitude == locationMarker.coordinate.latitude && i.coordinate.longitude == locationMarker.coordinate.longitude  {
                     
@@ -211,6 +216,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 
                 self?.callBackCoordinates?(locationMarker.coordinate.latitude, locationMarker.coordinate.longitude)
                 
+                // saving to user defaults
                 let chosenLocation = ["latitude":locationMarker.coordinate.latitude, "longitude": locationMarker.coordinate.longitude]
                 self?.defaults.setValue(chosenLocation, forKey: "chosenLocation")
 

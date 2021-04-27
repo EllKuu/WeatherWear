@@ -16,32 +16,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pencil.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="9eR-mA-DhA">
-                                <rect key="frame" x="132" y="373.5" width="150" height="149"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="OMn-Pa-BxN"/>
-                                    <constraint firstAttribute="width" constant="150" id="ogs-jc-i4v"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WeatherWearLaunchLogo" translatesAutoresizingMaskIntoConstraints="NO" id="WJq-ZS-Id5">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="tintColor" red="0.085420690480000006" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="9eR-mA-DhA" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="gYP-Lo-60b"/>
-                            <constraint firstItem="9eR-mA-DhA" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ohQ-5B-AJP"/>
+                            <constraint firstItem="WJq-ZS-Id5" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" constant="-44" id="1zA-NR-i1x"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="WJq-ZS-Id5" secondAttribute="bottom" constant="-34" id="OlP-pZ-QTr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WJq-ZS-Id5" secondAttribute="trailing" constant="-20" id="UUx-El-myS"/>
+                            <constraint firstItem="WJq-ZS-Id5" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="w36-qu-sd1"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
     <resources>
-        <image name="pencil.circle.fill" catalog="system" width="128" height="121"/>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <image name="WeatherWearLaunchLogo" width="138" height="298.66665649414062"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>
