@@ -61,7 +61,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         self.title = titleVC
-        navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = saveButton
         navigationItem.leftBarButtonItem = cancelButton
@@ -77,8 +76,6 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
     
         let imageCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! ImageTableViewCell
         let categoryCell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as! CategoryTableViewCell

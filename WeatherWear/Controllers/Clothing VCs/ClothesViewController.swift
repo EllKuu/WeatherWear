@@ -87,21 +87,9 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        self.navigationItem.title = "Clothing"
+        
         fetchItems()
-        
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layoutCollectionView())
-        guard let collectionView = collectionView else { return }
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .systemBackground
-        view.addSubview(collectionView)
-        
-        // Register cell
-        collectionView.register(ClothingCollectionViewCell.self, forCellWithReuseIdentifier: ClothingCollectionViewCell.identifier)
-        
-        // Navigation bar
-        navigationController?.navigationBar.prefersLargeTitles = true
+        setupCollectionView()
         setupBarButtonItems()
         
     }
@@ -113,14 +101,14 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.prefersLargeTitles = true
+        //navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesSearchBarWhenScrolling = false
         fetchItems()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navigationController?.navigationBar.prefersLargeTitles = true
+        //navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     
@@ -137,6 +125,9 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func setupBarButtonItems() {
+        self.navigationItem.title = "Clothing"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         navigationItem.rightBarButtonItem = addButton
         navigationItem.leftBarButtonItem = selectButton
         self.navigationItem.searchController = searchController
@@ -144,6 +135,18 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.delegate = self
         searchController.obscuresBackgroundDuringPresentation = false
+    }
+    
+    func setupCollectionView(){
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layoutCollectionView())
+        guard let collectionView = collectionView else { return }
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .systemBackground
+        view.addSubview(collectionView)
+        
+        // Register cell
+        collectionView.register(ClothingCollectionViewCell.self, forCellWithReuseIdentifier: ClothingCollectionViewCell.identifier)
     }
     
     // MARK: Navbar Functions: ADD, DELETE
