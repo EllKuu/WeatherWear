@@ -101,14 +101,12 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesSearchBarWhenScrolling = false
         fetchItems()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesSearchBarWhenScrolling = false
     }
     
@@ -286,12 +284,11 @@ class ClothesViewController: UIViewController, UICollectionViewDelegate, UIColle
         }
         
         filteredClothingItems = clothingItemIndexes.filter ({
-            return
+
             $0.clothing.clothingCategory == compareText.capitalized ||
-                    $0.clothing.clothingSubCategory == compareText ||
-                    $0.clothing.clothingBrand == compareText ||
-                    $0.clothing.clothingColor == compareText
-                || ($0.clothing.clothingSeason!.contains(compareText.capitalized))
+            $0.clothing.clothingSubCategory == compareText ||
+            $0.clothing.clothingBrand == compareText ||
+            $0.clothing.clothingColor == compareText || ($0.clothing.clothingSeason!.contains(compareText.capitalized))
             
         })
         DispatchQueue.main.async {
@@ -309,12 +306,11 @@ extension ClothesViewController: UISearchResultsUpdating{
         }
     }
     
-} // end of extension
+}
 
 extension ClothesViewController: UISearchBarDelegate{
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
         if let search = searchBar.text?.lowercased(){
             filterContentForSearchText(search)
         }
@@ -322,11 +318,9 @@ extension ClothesViewController: UISearchBarDelegate{
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
         searchBar.text = ""
         fetchItems()
     }
 
-    
 }
 

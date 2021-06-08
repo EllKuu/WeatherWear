@@ -38,8 +38,12 @@ class AddDetailsTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textViewTextChangeCallback?(textField.text!)
+        if let text = textField.text {
+            textViewTextChangeCallback?(text)
+        }
+        
     }
+    
     
     
     

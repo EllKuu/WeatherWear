@@ -34,7 +34,10 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
     
     var selectedImage: UIImage?{
         didSet{
-            imageCell?.configure(with: "", image: (selectedImage)!)
+            if selectedImage != nil {
+                imageCell?.configure(with: "", image: selectedImage!)
+            }
+            
             hasSetImage = true
         }
     }
@@ -61,17 +64,22 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         self.title = titleVC
+        setupNavigationBar()
+        registerTableViewCells()
+        
+    }
+    
+    func setupNavigationBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = saveButton
         navigationItem.leftBarButtonItem = cancelButton
-        
+    }
+    
+    func registerTableViewCells(){
         tableView.register(AddDetailsTableViewCell.nib(), forCellReuseIdentifier: AddDetailsTableViewCell.identifier)
         tableView.register(ImageTableViewCell.nib(), forCellReuseIdentifier: ImageTableViewCell.identifier)
         tableView.register(CategoryTableViewCell.nib(), forCellReuseIdentifier: CategoryTableViewCell.identifier)
         tableView.register(SeasonTableViewCell.nib(), forCellReuseIdentifier: SeasonTableViewCell.identifier)
-        
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,13 +92,18 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         let colorCell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) as! AddDetailsTableViewCell
         let seasonCell = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! SeasonTableViewCell
         
-        // if update fill all fields
+        // fields will be populated if user has tapped on item in the collectionView
         if isUpdate{
             if let previousItem = previousItem{
                 DispatchQueue.main.async { [weak self] in
-                    imageCell.configure(with: "", image: UIImage(data: previousItem.clothingImage!)!)
                     
-                    self!.selectedImage = UIImage(data: previousItem.clothingImage!)
+                    guard let prevItemImage = previousItem.clothingImage else { return }
+                    guard let itemImage = UIImage(data: prevItemImage) else { return }
+                    guard let self = self else { return }
+                    
+                    imageCell.configure(with: "", image: itemImage)
+                    
+                    self.selectedImage = itemImage
                     
                     for btn in categoryCell.categoryButtons{
                         if previousItem.clothingCategory?.capitalized == btn.titleLabel?.text?.capitalized{
@@ -112,12 +125,12 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     
                     
                 
-                    self?.clothing_category = previousItem.clothingCategory
-                    self?.clothing_subcategory = previousItem.clothingSubCategory
-                    self?.clothing_brand = previousItem.clothingBrand
-                    self?.clothing_color = previousItem.clothingBrand
-                    self?.clothing_season = previousItem.clothingSeason
-                    self?.seasons = previousItem.clothingSeason!
+                    self.clothing_category = previousItem.clothingCategory
+                    self.clothing_subcategory = previousItem.clothingSubCategory
+                    self.clothing_brand = previousItem.clothingBrand
+                    self.clothing_color = previousItem.clothingBrand
+                    self.clothing_season = previousItem.clothingSeason
+                    self.seasons = previousItem.clothingSeason!
                     
                 }
             }
@@ -154,29 +167,44 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
             clothingItem?.clothingSeason = clothing_season
         }
        
+        var c1 = false, c2 = false, c3 = false, c4 = false, c5 = false, c6 = false
         // check for empty fields
-       if hasSetImage && clothingItem?.clothingCategory != nil && clothingItem?.clothingSubCategory != nil && clothingItem?.clothingBrand != nil && clothingItem?.clothingColor != nil && clothingItem?.clothingSeason != nil {
-           
-            print(clothingItem as Any)
+        if hasSetImage {
+            c1 = true
+        }
+        if clothingItem?.clothingCategory != nil {
+            c2 = true
+        }
+        if clothingItem?.clothingSubCategory != nil{
+            c3 = true
+        }
+        if clothingItem?.clothingBrand != nil {
+            c4 = true
+        }
+        if clothingItem?.clothingColor != nil {
+            c5 = true
+        }
+        if clothingItem?.clothingSeason != nil{
+            c6 = true
+        }
+        
+        if c1 && c2 && c3 && c4 && c5 && c6{
             do {
-                print("saving")
                 try self.context.save()
                 isUpdate = false
                 navigationController?.popViewController(animated: true)
             }catch{
                 fatalError("Could not save item")
             }
+        }
+        
+        else{
+             let alert = UIAlertController(title: "Fill in all fields", message: "", preferredStyle: .alert)
+             alert.addAction(UIAlertAction(title: "OK", style: .default))
+             present(alert, animated: true)
+             context.delete(clothingItem!)
+         }
             
-           
-        }
-       else{
-            let alert = UIAlertController(title: "Fill in all fields", message: "", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            present(alert, animated: true)
-            context.delete(clothingItem!)
-        }
-        
-        
     } //end of save item
     
     func userHasSetImage(){
@@ -201,17 +229,17 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
         if indexPath.row == 0 {
         
             let imageCell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.identifier, for: indexPath) as! ImageTableViewCell
-            if selectedImage != nil{
-                imageCell.configure(with: "", image: selectedImage!)
+            
+            imageCell.configure(with: "Pick a Picture", image: UIImage(systemName: "camera.circle")!)
+            
+            if let userImage = selectedImage{
+                imageCell.configure(with: "", image: userImage)
                 hasSetImage = true
-            }else{
-                imageCell.configure(with: "Pick a Picture", image: UIImage(systemName: "camera.circle")!)
             }
-           
-            
+
             return imageCell
-            
         }
+        
         else if indexPath.row == 1{
             let categoryCell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
             categoryCell.delegate = self
