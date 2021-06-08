@@ -32,7 +32,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        navigationItem.searchController = searchController
+        //navigationItem.searchController = searchController
         
         // tap gesture
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(dropPin))
@@ -62,42 +62,39 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         var title = ""
         var info = ""
         lookUpCurrentLocation(location: saveLocation, completionHandler: {
-            (placemark) in
+           [weak self] (placemark) in
+            
+            guard let strongSelf = self else { return }
             
             title = placemark?.name ?? "title"
             info = placemark?.locality ?? "locality"
             let annotation = LocationMarker(title: title, coordinate: coordinate, info: info)
-            self.mapView.addAnnotation(annotation)
+            strongSelf.mapView.addAnnotation(annotation)
         })
-        
-        // Add annotation:
-       
-        
         
         if gesture.state == .ended{
             saveLocationsToUserDefaults(location: saveLocation)
         }
         
-        
     }
     
-    func lookUpCurrentLocation(location: CLLocation,completionHandler: @escaping (CLPlacemark?)
-                    -> Void ) {
-            let geocoder = CLGeocoder()
-                
-            // Look up the location and pass it to the completion handler
-            geocoder.reverseGeocodeLocation(location,
-                        completionHandler: { (placemarks, error) in
-                if error == nil {
-                    let firstLocation = placemarks?[0]
-                    completionHandler(firstLocation)
-                }
-                else {
-                 // An error occurred during geocoding.
-                    completionHandler(nil)
-                }
-            })
-        }
+    func lookUpCurrentLocation(location: CLLocation,completionHandler: @escaping (CLPlacemark?) -> Void ) {
+           
+        let geocoder = CLGeocoder()
+        // Look up the location and pass it to the completion handler
+        geocoder.reverseGeocodeLocation(location, completionHandler: {(placemarks, error) in
+                        
+            if error == nil {
+                let firstLocation = placemarks?[0]
+                completionHandler(firstLocation)
+            }
+            else {
+             // An error occurred during geocoding.
+                completionHandler(nil)
+            }
+        })
+        
+    }
     
     func saveLocationsToUserDefaults(location: CLLocation){
         let latitude:Double = location.coordinate.latitude
@@ -111,7 +108,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         savedLocations = defaults.object(forKey: "savedLocations") as? [[String:Double]] ?? [[String:Double]]()
         if savedLocations.isEmpty {
             print("no pins")
-        }else{
+        }
+        else
+        {
            
             for i in savedLocations{
                 let lat = i["Latitude"]!
@@ -121,19 +120,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 var title = ""
                 var info = ""
                 lookUpCurrentLocation(location: saveLocation, completionHandler: {
-                    (placemark) in
+                    [weak self] (placemark) in
+                    
+                    guard let strongSelf = self else { return }
                     
                     title = placemark?.name ?? "title"
                     info = placemark?.locality ?? "locality"
                     let annotation = LocationMarker(title: title, coordinate: saveLocation.coordinate, info: info)
-                    self.mapView.addAnnotation(annotation)
+                    strongSelf.mapView.addAnnotation(annotation)
                 })
-
-                // Add annotation:
-               
             }
-
         }
+        
     }
     
     
@@ -159,9 +157,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemark, error) in
+            
+            guard let strongSelf = self else { return }
+            
             if error == nil {
                 let pin = LocationMarker(title: placemark?[0].name ?? "N/A", coordinate: coordinate, info: placemark?[0].locality ?? "N/A")
-                self?.mapView.addAnnotation(pin)
+                strongSelf.mapView.addAnnotation(pin)
             }else{
                 print("error in geocoder")
             }
@@ -214,13 +215,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Get 7 Day Forecast", style: .default, handler: { [weak self] _ in
                 
-                self?.callBackCoordinates?(locationMarker.coordinate.latitude, locationMarker.coordinate.longitude)
+                guard let strongSelf = self else { return }
+                
+               strongSelf.callBackCoordinates?(locationMarker.coordinate.latitude, locationMarker.coordinate.longitude)
                 
                 // saving to user defaults
                 let chosenLocation = ["latitude":locationMarker.coordinate.latitude, "longitude": locationMarker.coordinate.longitude]
-                self?.defaults.setValue(chosenLocation, forKey: "chosenLocation")
+                strongSelf.defaults.setValue(chosenLocation, forKey: "chosenLocation")
 
-                self?.navigationController?.popToRootViewController(animated: true)
+                strongSelf.navigationController?.popToRootViewController(animated: true)
             }))
             ac.addAction(UIAlertAction(title: "Cancel", style: .default))
             present(ac, animated: true)

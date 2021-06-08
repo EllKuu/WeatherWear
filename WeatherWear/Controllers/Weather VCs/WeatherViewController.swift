@@ -24,22 +24,32 @@ class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .tertiarySystemGroupedBackground
+        view.backgroundColor = .systemBackground
+        
+        setupBarButtons()
+        setupWeatherTable()
+        setupHeaderInfo()
+        
+    }
+    
+    func setupBarButtons(){
         self.navigationItem.title = "Weather"
+        navigationItem.rightBarButtonItem = worldMapBtn
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    func setupWeatherTable(){
         weatherTable.delegate = self
         weatherTable.dataSource = self
         weatherTable.layoutMargins = UIEdgeInsets.zero
         weatherTable.separatorInset = UIEdgeInsets.zero
         
+        weatherTable.register(UINib(nibName: WeatherDayTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: WeatherDayTableViewCell.identifier)
+    }
+    
+    func setupHeaderInfo(){
         let chosenLocation = defaults.object(forKey: "chosenLocation") as? [String: CLLocationDegrees] ?? [String: CLLocationDegrees]()
         setupHeaderIfPreviousLocationSaved(chosenLocation: chosenLocation)
-        
-        // navigation bar
-        navigationController?.navigationBar.prefersLargeTitles = true
-        setupBarButtons()
-        
-        
-        weatherTable.register(UINib(nibName: WeatherDayTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: WeatherDayTableViewCell.identifier)
     }
     
     func setupHeaderIfPreviousLocationSaved(chosenLocation:[String: CLLocationDegrees]){
@@ -49,8 +59,11 @@ class WeatherViewController: UIViewController {
             if let lat = chosenLocation["latitude"], let long = chosenLocation["longitude"]{
                 
                 self.weatherResult.getWeatherData(latitude: lat, longitude: long, completion: { [weak self] (weatherObj) in
-                    self?.weatherDataSetup(weatherData: weatherObj, location: CLLocation(latitude: lat, longitude: long))
-                    self?.weatherTable.reloadData()
+                    
+                    guard let strongSelf = self else { return }
+                    
+                    strongSelf.weatherDataSetup(weatherData: weatherObj, location: CLLocation(latitude: lat, longitude: long))
+                    strongSelf.weatherTable.reloadData()
                     
                 })
             }
@@ -61,9 +74,7 @@ class WeatherViewController: UIViewController {
         }
     }
     
-    func setupBarButtons(){
-        navigationItem.rightBarButtonItem = worldMapBtn
-    }
+   
     
     func setupHeader(location: String, temp: String, date: String, image: UIImage, description: String){
         let headerNib = (Bundle.main.loadNibNamed(HeaderTableViewCell.identifier, owner: self, options: nil)![0] as? HeaderTableViewCell)
@@ -95,31 +106,34 @@ class WeatherViewController: UIViewController {
         
         // setup header data
         let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+        geocoder.reverseGeocodeLocation(location, completionHandler: { [weak self] (placemarks, error) in
+            
+            guard let strongSelf = self else { return }
+            
             if error == nil {
                 let firstLocation = placemarks?[0]
-                self.headerLocation = firstLocation?.name ?? "N/A"
+                strongSelf.headerLocation = firstLocation?.name ?? "N/A"
             }
             else {
                 // An error occurred during geocoding.
-                self.headerLocation = "N/A"
+                strongSelf.headerLocation = "N/A"
             }
             
             let headerTemp = String("\(Int(weatherData.current.temp.rounded())) C")
-            let headerIcon = self.setIcon(iconID: weatherData.current.weather[0].icon)
-            let headerDate = self.getDate(weatherInt: weatherData.current.dt)
+            let headerIcon = strongSelf.setIcon(iconID: weatherData.current.weather[0].icon)
+            let headerDate = strongSelf.getDate(weatherInt: weatherData.current.dt)
             let headerDescription = weatherData.current.weather[0].description.capitalized
-            self.setupHeader(location: self.headerLocation, temp: headerTemp, date: headerDate, image: headerIcon, description: headerDescription)
+            strongSelf.setupHeader(location: strongSelf.headerLocation, temp: headerTemp, date: headerDate, image: headerIcon, description: headerDescription)
             
             
             
         })
         
         for i in weatherData.daily{
-            self.weatherDayOfTheWeek.append(i)
+            weatherDayOfTheWeek.append(i)
         }
         
-        print(weatherDayOfTheWeek.count)
+        //print(weatherDayOfTheWeek.count)
         
     }
     

@@ -88,8 +88,6 @@ class ClothingSuggestionsTableViewController: UITableViewController {
             return cell
             
         case 1:
-            
-            hasBottom = true
             cell.configure(with: clothingSuggestions.filter({
                 ($0.clothingSeason?.contains(season))! && $0.clothingCategory?.capitalized == "Bottom"
             }))

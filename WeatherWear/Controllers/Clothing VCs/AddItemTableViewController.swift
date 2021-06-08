@@ -99,11 +99,11 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     
                     guard let prevItemImage = previousItem.clothingImage else { return }
                     guard let itemImage = UIImage(data: prevItemImage) else { return }
-                    guard let self = self else { return }
+                    guard let strongSelf = self else { return }
                     
                     imageCell.configure(with: "", image: itemImage)
                     
-                    self.selectedImage = itemImage
+                    strongSelf.selectedImage = itemImage
                     
                     for btn in categoryCell.categoryButtons{
                         if previousItem.clothingCategory?.capitalized == btn.titleLabel?.text?.capitalized{
@@ -125,12 +125,12 @@ class AddItemTableViewController: UITableViewController, UINavigationControllerD
                     
                     
                 
-                    self.clothing_category = previousItem.clothingCategory
-                    self.clothing_subcategory = previousItem.clothingSubCategory
-                    self.clothing_brand = previousItem.clothingBrand
-                    self.clothing_color = previousItem.clothingBrand
-                    self.clothing_season = previousItem.clothingSeason
-                    self.seasons = previousItem.clothingSeason!
+                    strongSelf.clothing_category = previousItem.clothingCategory
+                    strongSelf.clothing_subcategory = previousItem.clothingSubCategory
+                    strongSelf.clothing_brand = previousItem.clothingBrand
+                    strongSelf.clothing_color = previousItem.clothingBrand
+                    strongSelf.clothing_season = previousItem.clothingSeason
+                    strongSelf.seasons = previousItem.clothingSeason!
                     
                 }
             }
