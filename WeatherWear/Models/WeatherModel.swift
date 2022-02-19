@@ -68,11 +68,20 @@ class WeatherModel {
                     }
                     
                     guard let data = data else { return }
+                    
                    
                     
                     do{
+                        
                         let decoder = JSONDecoder()
                         let weatherObj = try decoder.decode(WeatherData.self, from: data)
+                        
+                        let encoder = JSONEncoder()
+                        encoder.outputFormatting = .prettyPrinted
+                        let jsonData = try encoder.encode(weatherObj)
+                        //let json = String(data: jsonData, encoding: String.Encoding.utf8)
+                        print(jsonData)
+                        
                         completion(weatherObj)
                     }catch let jsonErr{
                         print(jsonErr)
